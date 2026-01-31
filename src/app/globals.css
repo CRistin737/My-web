@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+==========================================================================
+   MASTER CHAMELEON THEME SYSTEM
+   Controls Color, Typography, Grid, and Layout via Pure CSS.
+========================================================================== 
+*/
+
+@layer base {
+  :root {
+    --font-heading: sans-serif;
+    --font-body: sans-serif;
+  }
+
+  body {
+    transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Infinite Scroll Animation */
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+.logos-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.logos-track {
+  display: inline-flex;
+  gap: 4rem;
+  animation: scroll 30s linear infinite;
+}
+
+.logo-item {
+  font-weight: 700;
+  font-size: 1.25rem;
+  opacity: 0.6;
+  white-space: nowrap;
+}
+
+/* Floating WhatsApp (Global) */
+.floating-whatsapp {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  background-color: #25D366;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.floating-whatsapp:hover {
+  transform: scale(1.1);
+}
