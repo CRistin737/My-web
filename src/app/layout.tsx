@@ -1,24 +1,20 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import "./styles/modern.css";
-import "./styles/swiss.css";
-import "./styles/cyberpunk.css";
-import "./styles/neopop.css";
-import "./styles/vintage.css";
+import "./styles/xve.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains" });
 
-import { constructMetadata, generateJsonLd, defaultSEO } from "@/lib/seo-config";
+import { constructMetadata, generateJsonLd } from "@/lib/seo-config";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 
 export const metadata = constructMetadata({
-  businessName: "Master Template",
-  description: "Plantilla de aterrizaje optimizada para República Dominicana.",
-  image: "https://master-template.com/og.jpg",
-  keywords: ["Next.js", "React", "Landing Page", "República Dominicana"]
+  businessName: "XVE Studio",
+  description: "Diseño y desarrollo web de alto impacto con animaciones 3D para marcas que quieren destacar en República Dominicana.",
+  image: "https://xvestudio.com/og.jpg",
+  keywords: ["diseño web", "desarrollo web", "animaciones 3D", "agencia digital", "Santo Domingo", "República Dominicana"]
 });
 
 export default function RootLayout({
@@ -26,20 +22,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = generateJsonLd(defaultSEO);
+  const jsonLd = generateJsonLd({
+    businessName: "XVE Studio",
+    description: "Agencia de diseño y desarrollo web especializada en experiencias digitales únicas con animaciones 3D.",
+    url: "https://xvestudio.com",
+    image: "https://xvestudio.com/og.jpg",
+    location: "Santo Domingo, República Dominicana",
+  });
 
   return (
-    <html lang="en">
-      {/* 
-        CHANGE THEME HERE:
-        Replace 'theme-modern' with one of the following:
-        - theme-modern
-        - theme-swiss
-        - theme-cyberpunk
-        - theme-neopop
-        - theme-vintage
-      */}
-      <body className={`${inter.variable} ${playfair.variable} ${jetbrains.variable} antialiased theme-swiss`}>
+    <html lang="es">
+      <body className={`${inter.variable} ${playfair.variable} ${jetbrains.variable} antialiased theme-xve`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

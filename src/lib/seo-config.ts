@@ -79,6 +79,9 @@ export function constructMetadata({
         other: {
             "geo.region": "DO",
             "geo.placename": location,
+        },
+        icons: {
+            icon: '/image/xve-logo.ico',
         }
     };
 }

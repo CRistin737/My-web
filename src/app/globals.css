@@ -68,11 +68,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
   z-index: 9999;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+  animation: ws-float 3s ease-in-out infinite;
 }
 
 .floating-whatsapp:hover {
-  transform: scale(1.1);
+  transform: scale(1.12);
+  box-shadow: 0 6px 28px rgba(37, 211, 102, 0.55);
+  animation-play-state: paused;
+}
+
+.floating-whatsapp-ring { display: none; }
+
+@keyframes ws-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
 }

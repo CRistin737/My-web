@@ -2,39 +2,44 @@
 
 import { motion } from "framer-motion";
 import type { SiteData } from "@/content/site-data";
-import { Zap, Shield, Smartphone, Scale, Gavel, FileText, LucideIcon } from "lucide-react";
+import {
+    Globe, Box, ShoppingCart, Code2, BarChart3, Wrench,
+    Zap, Shield, Smartphone, LucideIcon
+} from "lucide-react";
 
 const IconMap: Record<string, LucideIcon> = {
-    "Zap": Zap,
-    "Shield": Shield,
-    "Smartphone": Smartphone,
-    "Scale": Scale,
-    "Gavel": Gavel,
-    "FileText": FileText
+    Globe, Box, ShoppingCart, Code2, BarChart3, Wrench,
+    Zap, Shield, Smartphone,
 };
 
-export const Features = ({ content }: { content: SiteData['features'] }) => {
+export const Features = ({ content }: { content: SiteData["features"] }) => {
     return (
         <section className="features-section" id="services">
             <div className="section-container">
                 <div className="section-header">
+                    <span className="section-label">Servicios</span>
                     <h2 className="section-heading">{content.heading}</h2>
                     <p className="section-subheading">{content.subheading}</p>
                 </div>
 
                 <div className="features-grid">
                     {content.items.map((feature, index) => {
-                        // Safe lookup with fallback
-                        const IconComponent = IconMap[feature.icon as string] || Zap;
-
+                        const IconComponent = IconMap[feature.icon as string] ?? Zap;
                         return (
-                            <FeatureCard
+                            <motion.div
                                 key={index}
-                                icon={<IconComponent size={24} />}
-                                title={feature.title}
-                                desc={feature.desc}
-                                delay={index * 0.1}
-                            />
+                                initial={{ opacity: 0, y: 24 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.07, duration: 0.5, ease: "easeOut" }}
+                                className="feature-card"
+                            >
+                                <div className="feature-icon">
+                                    <IconComponent size={22} />
+                                </div>
+                                <h3 className="feature-title">{feature.title}</h3>
+                                <p className="feature-desc">{feature.desc}</p>
+                            </motion.div>
                         );
                     })}
                 </div>
@@ -42,19 +47,3 @@ export const Features = ({ content }: { content: SiteData['features'] }) => {
         </section>
     );
 };
-
-const FeatureCard = ({ icon, title, desc, delay }: { icon: React.ReactNode, title: string, desc: string, delay: number }) => {
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay, duration: 0.5 }}
-            className="feature-card"
-        >
-            <div className="feature-icon">{icon}</div>
-            <h3 className="feature-title">{title}</h3>
-            <p className="feature-desc">{desc}</p>
-        </motion.div>
-    );
-}
