@@ -723,14 +723,20 @@ body.theme-xve .tech-marquee-icon {
     width: 22px;
     height: 22px;
     flex-shrink: 0;
-    filter: grayscale(1) brightness(0.45);
-    opacity: 0.5;
+    filter: grayscale(1) brightness(0.6) contrast(0.5);
+    opacity: 0.45;
     transition: filter 0.3s, opacity 0.3s, transform 0.3s;
 }
 
+/* Light mode: invert first so white SVGs become dark, then desaturate */
 body.theme-xve[data-mode="light"] .tech-marquee-icon {
-    filter: grayscale(1) brightness(0.8);
-    opacity: 0.4;
+    filter: grayscale(1) brightness(0.9) contrast(0.6);
+    opacity: 0.35;
+}
+
+/* Adaptive SVGs (Next.js, Three.js, Vercel) use currentColor */
+body.theme-xve .tech-marquee-icon svg.tech-svg-adaptive {
+    color: var(--text);
 }
 
 body.theme-xve .tech-marquee-icon svg {
@@ -738,15 +744,17 @@ body.theme-xve .tech-marquee-icon svg {
     height: 100%;
 }
 
-body.theme-xve .tech-marquee-icon svg.tech-svg-adaptive {
-    color: var(--text);
-}
-
+/* Hover: reveal real colors */
 body.theme-xve .tech-marquee-icon--active,
 body.theme-xve[data-mode="light"] .tech-marquee-icon--active {
-    filter: drop-shadow(0 0 6px var(--tech-color)) !important;
+    filter: drop-shadow(0 0 5px var(--tech-color)) !important;
     opacity: 1 !important;
     transform: scale(1.15);
+}
+
+/* Light mode hover: no drop-shadow on dark icons, just show them clean */
+body.theme-xve[data-mode="light"] .tech-marquee-icon--active svg.tech-svg-adaptive {
+    filter: none;
 }
 
 /* Name */
