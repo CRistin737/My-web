@@ -1,3 +1,17 @@
+/**
+ * ContactForm
+ *
+ * Summary: Contact section with a POST form that sends to /api/contact.
+ *          Displays a toast notification on success or error.
+ *
+ * Architecture:
+ *   - Controlled submit via handleSubmit; fields read from the DOM via namedItem
+ *   - Toast state is local; closed via useCallback to avoid re-render churn
+ *   - Layout classes defined in xve.css (.contact-*, .contact-submit-row)
+ *
+ * Responsive: Mobile-first. Name/email 1-col → 2-col at 768px (CSS grid).
+ *             Submit row stacks vertically at <480px via .contact-submit-row.
+ */
 "use client";
 
 import { useState, useCallback } from "react";
@@ -104,7 +118,7 @@ export const ContactForm = () => {
                             />
                         </div>
 
-                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
+                        <div className="contact-submit-row">
                             <span className="contact-privacy">* Respetamos tu privacidad. Sin spam.</span>
                             <button
                                 type="submit"

@@ -1,3 +1,19 @@
+/**
+ * SiteHeader
+ *
+ * Summary: Fixed top navigation bar with the XVE logo (static in mobile menu,
+ *          animated TextRotate on desktop), a desktop nav, a mobile hamburger
+ *          overlay, and a dark/light mode toggle persisted in localStorage.
+ *
+ * Architecture:
+ *   - 3-column CSS grid (1fr auto 1fr) keeps logo left, nav centered, actions right
+ *   - Theme toggle is fixed-positioned (z-index 55) and only shown at 768px+ via CSS
+ *   - Mobile overlay slides in from the right using Framer Motion AnimatePresence
+ *   - Dark mode state drives Framer Motion variants for the header background blur
+ *
+ * Responsive: Mobile-first. Hamburger visible below 768px; desktop nav above.
+ * Breakpoints: 768px (desktop nav + theme toggle appear, hamburger hides)
+ */
 "use client";
 
 import React, { useState, useEffect } from "react";
