@@ -198,14 +198,18 @@ body.theme-xve .header-actions {
     justify-self: end;
 }
 
-/* Theme toggle — desktop only (inside header-actions) */
+/* Theme toggle — fixed top-right, desktop only */
 body.theme-xve .theme-toggle-desktop {
     display: none;
-    width: 38px;
-    height: 38px;
+    position: fixed;
+    top: 1.25rem;
+    right: 1.5rem;
+    z-index: 55;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     border: 1px solid var(--border);
-    background: transparent;
+    background: var(--bg-card);
     color: var(--text-2);
     cursor: pointer;
     align-items: center;
@@ -605,6 +609,117 @@ body.theme-xve .logo-item-dot {
     background: var(--red);
     opacity: 0.6;
     flex-shrink: 0;
+}
+
+/* ── Tech Marquee ───────────────────────────────────────────── */
+body.theme-xve .tech-section {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 0;
+    overflow: hidden;
+}
+
+body.theme-xve .tech-section-label {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+body.theme-xve .tech-marquee-wrapper {
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+body.theme-xve .tech-marquee-track {
+    display: flex;
+    width: max-content;
+    animation: tech-scroll 35s linear infinite;
+}
+
+
+body.theme-xve .tech-marquee-track--reverse {
+    animation-direction: reverse;
+}
+
+@keyframes tech-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+body.theme-xve .tech-marquee-set {
+    display: flex;
+    flex-shrink: 0;
+}
+
+body.theme-xve .tech-marquee-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 1.5rem;
+    cursor: default;
+    transition: background 0.25s;
+    border-radius: 8px;
+    margin: 0 0.15rem;
+}
+
+body.theme-xve .tech-marquee-item:hover {
+    background: var(--bg-card);
+}
+
+/* Icon */
+body.theme-xve .tech-marquee-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    filter: grayscale(1) brightness(0.45);
+    opacity: 0.5;
+    transition: filter 0.3s, opacity 0.3s, transform 0.3s;
+}
+
+body.theme-xve[data-mode="light"] .tech-marquee-icon {
+    filter: grayscale(1) brightness(0.8);
+    opacity: 0.4;
+}
+
+body.theme-xve .tech-marquee-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+body.theme-xve .tech-marquee-icon svg.tech-svg-adaptive {
+    color: var(--text);
+}
+
+body.theme-xve .tech-marquee-icon--active,
+body.theme-xve[data-mode="light"] .tech-marquee-icon--active {
+    filter: drop-shadow(0 0 6px var(--tech-color)) !important;
+    opacity: 1 !important;
+    transform: scale(1.15);
+}
+
+/* Name */
+body.theme-xve .tech-marquee-name {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    white-space: nowrap;
+    transition: color 0.3s;
+}
+
+body.theme-xve .tech-marquee-name--active {
+    color: var(--text);
+}
+
+/* Glow on hover */
+body.theme-xve .tech-marquee-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    background: radial-gradient(ellipse at center, var(--tech-color) 0%, transparent 70%);
+    opacity: 0.06;
+    pointer-events: none;
 }
 
 /* ── Features / Services ─────────────────────────────────────── */
@@ -2337,6 +2452,110 @@ body.theme-xve .mock-orb-right {
     background: radial-gradient(circle, rgba(220,30,30,0.5) 0%, transparent 70%);
     filter: blur(8px);
     z-index: 1;
+}
+
+/* ── Toast XVE ──────────────────────────────────────────────── */
+body.theme-xve .toast-xve-overlay {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 200;
+    width: 380px;
+    max-width: calc(100vw - 2rem);
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border);
+}
+
+body.theme-xve .toast-xve-accent {
+    height: 2px;
+    width: 100%;
+}
+
+body.theme-xve .toast-xve-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1rem 1.25rem;
+    position: relative;
+}
+
+body.theme-xve .toast-xve-icon-wrap {
+    position: relative;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+body.theme-xve .toast-xve-icon-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1.5px solid;
+    pointer-events: none;
+}
+
+body.theme-xve .toast-xve-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    flex: 1;
+    min-width: 0;
+}
+
+body.theme-xve .toast-xve-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.01em;
+}
+
+body.theme-xve .toast-xve-line {
+    font-size: 0.78rem;
+    color: var(--text-2);
+    line-height: 1.45;
+}
+
+body.theme-xve .toast-xve-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: transparent;
+    border: none;
+    color: var(--text-3);
+    cursor: pointer;
+    padding: 0.25rem;
+    transition: color 0.2s;
+}
+
+body.theme-xve .toast-xve-close:hover {
+    color: var(--text);
+}
+
+body.theme-xve .toast-xve-progress {
+    height: 2px;
+    transform-origin: left;
+    opacity: 0.5;
+}
+
+body.theme-xve .toast-xve-scan {
+    position: absolute;
+    top: 0;
+    width: 60%;
+    height: 100%;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@media (max-width: 480px) {
+    body.theme-xve .toast-xve-overlay {
+        right: 0.5rem;
+        left: 0.5rem;
+        bottom: 1rem;
+        width: auto;
+    }
 }
 
 /* ── Global Mobile Fixes ────────────────────────────────────── */

@@ -1,7 +1,7 @@
 
 import { SiteHeader } from "@/components/blocks/SiteHeader";
 import { Hero } from "@/components/blocks/Hero";
-import { Logos } from "@/components/blocks/Logos";
+import { TechGrid } from "@/components/blocks/TechGrid";
 import { Features } from "@/components/blocks/Features";
 import { Work } from "@/components/blocks/Work";
 import { About } from "@/components/blocks/About";
@@ -37,7 +37,7 @@ export default function Home() {
       </a>
 
       <Hero content={siteData.hero} />
-      <Logos content={siteData.logos} />
+      <TechGrid />
       <Features content={siteData.features} />
       <Work content={siteData.work} />
       <About content={siteData.about} />
