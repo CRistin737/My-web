@@ -39,7 +39,7 @@ const XVELogo = () => (
 
 const XVELogoAnimated = () => (
     <span className="xve-logo" aria-label="XVE Studio">
-        <span className="xve-logo-xv">XV</span><span className="xve-logo-e">E </span>
+        <span className="xve-logo-xv">XV</span><span className="xve-logo-e">E</span>
         <TextRotate
             texts={ROTATING_WORDS}
             mainClassName="xve-logo-rotate"
