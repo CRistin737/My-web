@@ -31,8 +31,8 @@ export default function RootLayout({
   });
 
   return (
-    <html lang="es">
-      <body className={`${inter.variable} ${playfair.variable} ${jetbrains.variable} antialiased theme-xve`}>
+    <html lang="es" data-mode="light">
+      <body className={`${inter.variable} ${playfair.variable} ${jetbrains.variable} antialiased theme-xve`} data-mode="light">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

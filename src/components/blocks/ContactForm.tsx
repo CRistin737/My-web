@@ -53,8 +53,7 @@ export const ContactForm = () => {
                             </div>
                         ) : (
                             <>
-                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem", marginBottom: "1.25rem" }}
-                                    className="max-md:grid-cols-1">
+                                <div className="contact-name-email-grid">
                                     <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                                         <label htmlFor="name" className="contact-label">Nombre</label>
                                         <input

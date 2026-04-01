@@ -84,15 +84,17 @@ export const CTA = ({ content }: { content: SiteData["cta"] }) => {
             {/* Grid floor */}
             <div className="cta-grid-floor" />
 
-            {/* Cubes */}
-            <RotatingCube size={160} speed={18} rotXBase={20}  rotYBase={0}
-                style={{ left: "6%", top: "50%", transform: "translateY(-50%)" }} />
-            <RotatingCube size={90}  speed={12} rotXBase={-15} rotYBase={45}
-                style={{ right: "8%", top: "20%" }} />
-            <RotatingCube size={60}  speed={22} rotXBase={30}  rotYBase={20}
-                style={{ right: "18%", bottom: "15%" }} />
-            <RotatingCube size={110} speed={16} rotXBase={10}  rotYBase={-30}
-                style={{ left: "18%", top: "12%" }} />
+            {/* Cubes — hidden on mobile via CSS */}
+            <div className="cta-cube">
+                <RotatingCube size={160} speed={18} rotXBase={20}  rotYBase={0}
+                    style={{ left: "6%", top: "50%", transform: "translateY(-50%)" }} />
+                <RotatingCube size={90}  speed={12} rotXBase={-15} rotYBase={45}
+                    style={{ right: "8%", top: "20%" }} />
+                <RotatingCube size={60}  speed={22} rotXBase={30}  rotYBase={20}
+                    style={{ right: "18%", bottom: "15%" }} />
+                <RotatingCube size={110} speed={16} rotXBase={10}  rotYBase={-30}
+                    style={{ left: "18%", top: "12%" }} />
+            </div>
 
             {/* Red orb glow */}
             <div className="cta-orb" />

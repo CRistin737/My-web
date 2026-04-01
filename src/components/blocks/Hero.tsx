@@ -1,17 +1,17 @@
 "use client";
 
-import { useRef, CSSProperties, useEffect, useCallback } from "react";
+import { useRef, useState, CSSProperties, useEffect, useCallback } from "react";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import type { SiteData } from "@/content/site-data";
 
 const SHAPES = [
-    { w: 130, h: 130, top: "14%",  left: "6%",   rotX: 22,  rotY: 28,  depth: 0.022, delay: 0 },
-    { w: 75,  h: 75,  top: "18%",  left: "82%",  rotX: -14, rotY: 22,  depth: 0.04,  delay: 0.15 },
-    { w: 55,  h: 55,  top: "60%",  left: "88%",  rotX: 18,  rotY: -22, depth: 0.035, delay: 0.3 },
-    { w: 95,  h: 95,  top: "68%",  left: "4%",   rotX: -18, rotY: 14,  depth: 0.018, delay: 0.45 },
-    { w: 45,  h: 45,  top: "42%",  left: "76%",  rotX: 12,  rotY: -28, depth: 0.05,  delay: 0.2 },
-    { w: 65,  h: 65,  top: "35%",  left: "14%",  rotX: -10, rotY: 20,  depth: 0.03,  delay: 0.35 },
+    { w: 130, h: 130, wMobile: 55,  top: "14%",  left: "6%",   rotX: 22,  rotY: 28,  depth: 0.022, delay: 0 },
+    { w: 75,  h: 75,  wMobile: 35,  top: "18%",  left: "82%",  rotX: -14, rotY: 22,  depth: 0.04,  delay: 0.15 },
+    { w: 55,  h: 55,  wMobile: 25,  top: "60%",  left: "88%",  rotX: 18,  rotY: -22, depth: 0.035, delay: 0.3 },
+    { w: 95,  h: 95,  wMobile: 40,  top: "68%",  left: "4%",   rotX: -18, rotY: 14,  depth: 0.018, delay: 0.45 },
+    { w: 45,  h: 45,  wMobile: 22,  top: "42%",  left: "76%",  rotX: 12,  rotY: -28, depth: 0.05,  delay: 0.2 },
+    { w: 65,  h: 65,  wMobile: 30,  top: "35%",  left: "14%",  rotX: -10, rotY: 20,  depth: 0.03,  delay: 0.35 },
 ];
 
 const textVariants = {
@@ -23,18 +23,32 @@ const textVariants = {
     }),
 };
 
-function FloatingShape({ shape, springX, springY }: {
+function useIsMobile(breakpoint = 768) {
+    const [isMobile, setIsMobile] = useState(false);
+    useEffect(() => {
+        const mql = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+        setIsMobile(mql.matches);
+        const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+        mql.addEventListener("change", handler);
+        return () => mql.removeEventListener("change", handler);
+    }, [breakpoint]);
+    return isMobile;
+}
+
+function FloatingShape({ shape, springX, springY, isMobile }: {
     shape: typeof SHAPES[number];
     springX: ReturnType<typeof useSpring>;
     springY: ReturnType<typeof useSpring>;
+    isMobile: boolean;
 }) {
+    const size = isMobile ? shape.wMobile : shape.w;
     const x = useTransform(springX, [0, 1], [-(shape.depth * 600), shape.depth * 600]);
     const y = useTransform(springY, [0, 1], [-(shape.depth * 600), shape.depth * 600]);
 
     const posStyle: CSSProperties = {
         position: "absolute",
-        width: shape.w,
-        height: shape.h,
+        width: size,
+        height: size,
         top: shape.top,
         left: shape.left,
     };
@@ -50,7 +64,7 @@ function FloatingShape({ shape, springX, springY }: {
     return (
         <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
+            animate={{ opacity: isMobile ? 0.5 : 1, scale: 1 }}
             transition={{ delay: shape.delay + 0.5, duration: 1, ease: "easeOut" }}
             style={{ ...posStyle, x, y }}
         >
@@ -153,6 +167,7 @@ function useTronTrail(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
 export const Hero = ({ content }: { content: SiteData["hero"] }) => {
     const containerRef = useRef<HTMLElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const isMobile = useIsMobile();
 
     const rawX = useMotionValue(0.5);
     const rawY = useMotionValue(0.5);
@@ -213,7 +228,7 @@ export const Hero = ({ content }: { content: SiteData["hero"] }) => {
 
             {/* 3D Floating Shapes */}
             {SHAPES.map((shape, i) => (
-                <FloatingShape key={i} shape={shape} springX={springX} springY={springY} />
+                <FloatingShape key={i} shape={shape} springX={springX} springY={springY} isMobile={isMobile} />
             ))}
 
             {/* Center content */}
