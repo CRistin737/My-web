@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check } from "lucide-react";
+import { Check, Code2, Server } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { SiteData } from "@/content/site-data";
 
@@ -34,19 +34,24 @@ export const Pricing = ({ content, hosting }: {
                             className={`pricing-toggle-btn ${tab === "web" ? "pricing-toggle-btn--active" : ""}`}
                             onClick={() => setTab("web")}
                         >
-                            Diseño Web
+                            <Code2 size={15} />
+                            <span>Diseño Web</span>
                         </button>
                         <button
                             className={`pricing-toggle-btn ${tab === "hosting" ? "pricing-toggle-btn--active" : ""}`}
                             onClick={() => setTab("hosting")}
                         >
-                            Hosting
+                            <Server size={15} />
+                            <span>Hosting</span>
                         </button>
                         <motion.div
-                            className="pricing-toggle-indicator"
-                            layout
-                            transition={{ type: "spring", damping: 30, stiffness: 400 }}
-                            style={{ left: tab === "web" ? "0%" : "50%" }}
+                            className="pricing-toggle-pill"
+                            layoutId="pricing-pill"
+                            transition={{ type: "spring", damping: 28, stiffness: 380 }}
+                            style={{
+                                left: tab === "web" ? "4px" : "calc(50%)",
+                                width: "calc(50% - 4px)",
+                            }}
                         />
                     </div>
                 </div>
