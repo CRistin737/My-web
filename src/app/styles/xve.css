@@ -1097,6 +1097,11 @@ body.theme-xve .pricing-card {
     gap: 0;
     position: relative;
     transition: border-color 0.25s, transform 0.25s;
+    height: 100%;
+}
+
+body.theme-xve .pricing-card > a:last-child {
+    margin-top: auto;
 }
 
 @media (min-width: 768px) {
