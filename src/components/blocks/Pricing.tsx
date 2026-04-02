@@ -42,7 +42,7 @@ export const Pricing = ({ content, hosting }: {
                             onClick={() => setTab("hosting")}
                         >
                             <Server size={15} />
-                            <span>Hosting</span>
+                            <span>Mantenimiento</span>
                         </button>
                         <motion.div
                             className="pricing-toggle-pill"
