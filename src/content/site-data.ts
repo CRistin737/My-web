@@ -23,12 +23,12 @@ export const siteData = {
     ],
     hero: {
         title: {
-            line1: "Creamos experiencias",
-            highlight: "digitales que marcan.",
+            line1: "Tu negocio merece",
+            highlight: "una web que venda.",
         },
-        subtitle: "XVE Studio transforma ideas en sitios web de alta performance, con diseño único y animaciones 3D que elevan tu marca por encima del resto.",
+        subtitle: "Diseñamos páginas web profesionales para negocios en Esperanza, Santiago, Mao y Navarrete. Rápidas, modernas y hechas para convertir visitantes en clientes.",
         ctaPrimary: "Ver Proyectos",
-        ctaSecondary: "Agendar Consulta",
+        ctaSecondary: "Consulta Gratis",
         visualText: "3D Asset"
     },
     logos: {
@@ -36,45 +36,45 @@ export const siteData = {
         list: ["Next.js", "React", "Three.js", "Framer Motion", "TypeScript", "Tailwind CSS", "Node.js", "Figma", "Supabase", "Vercel"]
     },
     features: {
-        heading: "Lo que construimos",
-        subheading: "Cada proyecto es una obra de ingeniería y diseño. Sin plantillas. Sin compromisos.",
+        heading: "Servicios de diseño web",
+        subheading: "Todo lo que tu negocio necesita para destacar en internet. Sin plantillas genéricas — cada proyecto se construye desde cero.",
         items: [
             {
                 icon: "Globe",
-                title: "Web Design & Dev",
-                desc: "Sitios web únicos, rápidos y optimizados para conversión. Cada pixel tiene un propósito estratégico."
+                title: "Diseño de Páginas Web",
+                desc: "Creamos tu página web desde cero, con diseño profesional, adaptada a móviles y optimizada para que tus clientes te encuentren en Google."
             },
             {
                 icon: "Box",
                 title: "Animaciones 3D",
-                desc: "Experiencias visuales inmersivas usando Three.js y WebGL. Tu sitio no se parece a ningún otro."
+                desc: "Dale vida a tu sitio con efectos visuales que ningún competidor tiene. Tu website se va a ver diferente a todo lo demás."
             },
             {
                 icon: "ShoppingCart",
-                title: "E-commerce",
-                desc: "Tiendas online de alto rendimiento con pasarelas de pago, inventario y panel de administración."
+                title: "Tienda Online",
+                desc: "Vende tus productos por internet con una tienda online completa — pasarela de pago, inventario y panel para que manejes todo tú mismo."
             },
             {
                 icon: "Code2",
                 title: "Software a Medida",
-                desc: "Aplicaciones web, CRMs, dashboards y sistemas que automatizan y escalan tu negocio desde cero."
+                desc: "¿Necesitas un sistema para tu negocio? Creamos CRMs, dashboards y aplicaciones que automatizan lo que hoy haces manual."
             },
             {
                 icon: "BarChart3",
-                title: "Analytics & SEO",
-                desc: "Visibilidad real en Google. Paneles de analytics personalizados para decisiones basadas en datos."
+                title: "SEO y Posicionamiento",
+                desc: "Que cuando alguien busque tu servicio en Google, tu negocio sea el primero que aparezca. Así de simple."
             },
             {
                 icon: "Wrench",
-                title: "Mantenimiento",
-                desc: "Soporte técnico continuo, actualizaciones y monitoreo 24/7 para que nunca pierdas una venta."
+                title: "Mantenimiento Web",
+                desc: "Tu página siempre actualizada, rápida y funcionando. Soporte técnico cuando lo necesites, sin complicaciones."
             }
         ]
     },
     about: {
         heading: "Somos XVE Studio",
-        subheading: "Un estudio de diseño y desarrollo web especializado en crear presencias digitales que no pasan desapercibidas.",
-        description: "Desde Esperanza, Valverde, construimos experiencias digitales de estándar internacional. Nuestro equipo cuenta con más de 8 años de experiencia en diseño estratégico, tecnología de punta y animaciones 3D — creando sitios que no solo se ven increíbles, sino que convierten visitantes en clientes.",
+        subheading: "La agencia de diseño web de Esperanza que trabaja con negocios en Santiago, Mao, Navarrete y toda la Línea Noroeste.",
+        description: "Desde Esperanza, Valverde, creamos páginas web de nivel internacional para negocios locales. Ya sean restaurantes, clínicas, empresas o profesionales independientes — diseñamos sitios que no solo se ven bien, sino que traen clientes de verdad. Más de 8 años de experiencia nos respaldan.",
         stats: [
             { value: "8+", label: "Años de experiencia" },
             { value: "50+", label: "Proyectos entregados" },
@@ -295,6 +295,14 @@ export const siteData = {
         heading: "Preguntas Frecuentes",
         items: [
             {
+                q: "¿Cuánto cuesta hacer una página web en República Dominicana?",
+                a: "Nuestros planes van desde RD$14,900 para un sitio básico hasta RD$59,900 para un sitio completo con e-commerce y funciones avanzadas. El precio depende de lo que necesites — la primera consulta es gratis y sin compromiso."
+            },
+            {
+                q: "¿Trabajan con negocios en Santiago, Mao y Navarrete?",
+                a: "Sí. Aunque estamos en Esperanza, Valverde, trabajamos con clientes en Santiago, Mao, Navarrete y toda la Línea Noroeste. Todo el proceso se puede hacer remoto por WhatsApp, videollamada o nos reunimos en persona."
+            },
+            {
                 q: "¿Cuánto tiempo tarda en entregarse un proyecto?",
                 a: "Depende del plan: Básico 7 días, Profesional 12 días, Completo 20 días. Los proyectos de software se estiman en la consulta inicial. Siempre cumplimos los plazos acordados."
             },
@@ -317,9 +325,9 @@ export const siteData = {
         ]
     },
     cta: {
-        heading: "¿Listo para destacar?",
-        text: "Tu competencia ya tiene un sitio. Tú necesitas uno que los deje atrás.",
-        button: "Iniciar mi Proyecto"
+        heading: "¿Necesitas una página web?",
+        text: "Hablemos. La primera consulta es gratis y sin compromiso. Te decimos exactamente qué necesita tu negocio para crecer en internet.",
+        button: "Agendar Consulta Gratis"
     },
     footer: {
         brand: {

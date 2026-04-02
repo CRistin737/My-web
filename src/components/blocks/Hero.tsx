@@ -241,7 +241,7 @@ export const Hero = ({ content }: { content: SiteData["hero"] }) => {
                 >
                     <span className="hero-eyebrow">
                         <span className="hero-eyebrow-dot" />
-                        Agencia de diseño web · Esperanza, Valverde RD
+                        Diseño web · Esperanza · Santiago · Mao · Navarrete
                     </span>
                 </motion.div>
 

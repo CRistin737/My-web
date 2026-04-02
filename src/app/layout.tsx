@@ -11,34 +11,26 @@ import { constructMetadata, generateJsonLd } from "@/lib/seo-config";
 import { GoogleAnalytics, GTMNoScript } from "@/components/analytics/GoogleAnalytics";
 import { CookieBanner } from "@/components/blocks/CookieBanner";
 
-export const metadata = constructMetadata({
-  businessName: "XVE Studio",
-  description: "Diseño y desarrollo web de alto impacto con animaciones 3D para marcas que quieren destacar en República Dominicana.",
-  image: "https://xvestudio.com/og.jpg",
-  keywords: ["diseño web", "desarrollo web", "animaciones 3D", "agencia digital", "Santo Domingo", "República Dominicana"]
-});
+export const metadata = constructMetadata();
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = generateJsonLd({
-    businessName: "XVE Studio",
-    description: "Agencia de diseño y desarrollo web especializada en experiencias digitales únicas con animaciones 3D.",
-    url: "https://xvestudio.com",
-    image: "https://xvestudio.com/og.jpg",
-    location: "Santo Domingo, República Dominicana",
-  });
+  const schemas = generateJsonLd();
 
   return (
     <html lang="es" data-mode="light">
       <body className={`${inter.variable} ${playfair.variable} ${jetbrains.variable} antialiased theme-xve`} data-mode="light">
         <GTMNoScript />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        {schemas.map((schema, i) => (
+          <script
+            key={i}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          />
+        ))}
         <GoogleAnalytics />
         {children}
         <CookieBanner />
