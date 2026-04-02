@@ -2803,3 +2803,508 @@ body.theme-xve[data-mode="light"] { scrollbar-color: #0a0a0a #ffffff; }
 
 /* Modal */
 body.theme-xve .work-modal { scrollbar-width: thin; scrollbar-color: #6B0000 #080808; }
+
+/* ==========================================================================
+   LEGAL PAGES — Shared styles for /privacidad, /terminos, /cookies, /aviso-legal
+   ========================================================================== */
+
+body.theme-xve .legal-doc {
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.8;
+}
+
+/* Meta line: "Última actualización: …" */
+body.theme-xve .legal-meta {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+body.theme-xve .legal-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+}
+
+body.theme-xve .legal-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-2);
+    max-width: 72ch;
+    margin-bottom: 1rem;
+}
+
+body.theme-xve .legal-lead {
+    font-size: 0.95rem;
+    color: var(--text-2);
+    margin-bottom: 2rem;
+    padding: 1rem 1.25rem;
+    border-left: 3px solid var(--red);
+    background: var(--bg-card);
+    border-radius: 0 6px 6px 0;
+}
+
+body.theme-xve .legal-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+}
+
+/* Section blocks */
+body.theme-xve .legal-section {
+    margin-bottom: 2.5rem;
+}
+
+body.theme-xve .legal-section h2 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+body.theme-xve .legal-section h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 1.25rem 0 0.5rem;
+    letter-spacing: 0.01em;
+}
+
+body.theme-xve .legal-section h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--red);
+    margin-bottom: 0.4rem;
+}
+
+body.theme-xve .legal-section p {
+    font-size: 0.92rem;
+    color: var(--text-2);
+    margin-bottom: 0.85rem;
+}
+
+body.theme-xve .legal-section ul,
+body.theme-xve .legal-section ol {
+    padding-left: 1.4rem;
+    margin-bottom: 0.85rem;
+    color: var(--text-2);
+    font-size: 0.92rem;
+}
+
+body.theme-xve .legal-section li {
+    margin-bottom: 0.45rem;
+}
+
+body.theme-xve .legal-section strong {
+    color: var(--text);
+    font-weight: 600;
+}
+
+body.theme-xve .legal-section a {
+    color: var(--red);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s;
+}
+
+body.theme-xve .legal-section a:hover {
+    color: var(--red-bright);
+}
+
+body.theme-xve .legal-section code {
+    font-family: var(--font-jetbrains, monospace);
+    font-size: 0.83rem;
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    color: var(--red-bright);
+}
+
+/* Identification data table */
+body.theme-xve .legal-data-table {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 1rem 0;
+}
+
+body.theme-xve .legal-data-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+}
+
+body.theme-xve .legal-data-row:last-child {
+    border-bottom: none;
+}
+
+body.theme-xve .legal-data-label {
+    padding: 0.7rem 1rem;
+    font-weight: 600;
+    color: var(--text-2);
+    background: var(--bg-card);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+body.theme-xve .legal-data-value {
+    padding: 0.7rem 1rem;
+    color: var(--text);
+    background: var(--bg-surface);
+}
+
+body.theme-xve .legal-data-value a {
+    color: var(--red);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* Rights grid (privacy page) */
+body.theme-xve .legal-rights-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin: 1.25rem 0;
+}
+
+@media (min-width: 640px) {
+    body.theme-xve .legal-rights-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+body.theme-xve .legal-right-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    transition: border-color 0.2s;
+}
+
+body.theme-xve .legal-right-item:hover {
+    border-color: var(--border-red);
+}
+
+body.theme-xve .legal-right-item h4 {
+    color: var(--red);
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+body.theme-xve .legal-right-item p {
+    font-size: 0.86rem;
+    color: var(--text-2);
+    margin-bottom: 0;
+    line-height: 1.6;
+}
+
+/* Cookie table */
+body.theme-xve .legal-cookie-table {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+}
+
+body.theme-xve .legal-cookie-header {
+    display: grid;
+    grid-template-columns: 1.5fr 1.2fr 2.5fr 1.2fr 1.4fr;
+    background: var(--bg-card2);
+    border-bottom: 1px solid var(--border);
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-2);
+}
+
+body.theme-xve .legal-cookie-header span {
+    padding: 0.6rem 0.85rem;
+    border-right: 1px solid var(--border);
+}
+
+body.theme-xve .legal-cookie-header span:last-child {
+    border-right: none;
+}
+
+body.theme-xve .legal-cookie-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1.2fr 2.5fr 1.2fr 1.4fr;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-2);
+    transition: background 0.15s;
+}
+
+body.theme-xve .legal-cookie-row:last-child {
+    border-bottom: none;
+}
+
+body.theme-xve .legal-cookie-row:hover {
+    background: var(--bg-card);
+}
+
+body.theme-xve .legal-cookie-row span {
+    padding: 0.75rem 0.85rem;
+    border-right: 1px solid var(--border);
+    line-height: 1.5;
+    vertical-align: top;
+}
+
+body.theme-xve .legal-cookie-row span:last-child {
+    border-right: none;
+}
+
+/* On mobile: cookie table becomes stacked cards */
+@media (max-width: 767px) {
+    body.theme-xve .legal-cookie-header {
+        display: none;
+    }
+
+    body.theme-xve .legal-cookie-row {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        margin-bottom: 0.75rem;
+        background: var(--bg-card);
+    }
+
+    body.theme-xve .legal-cookie-table {
+        border: none;
+        background: transparent;
+    }
+
+    body.theme-xve .legal-cookie-row span {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 0.55rem 0.9rem;
+    }
+
+    body.theme-xve .legal-cookie-row span:last-child {
+        border-bottom: none;
+    }
+
+    body.theme-xve .legal-cookie-row span::before {
+        content: attr(data-label) ": ";
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-3);
+        display: block;
+        margin-bottom: 0.15rem;
+    }
+}
+
+/* Data table responsive */
+@media (max-width: 480px) {
+    body.theme-xve .legal-data-row {
+        grid-template-columns: 1fr;
+    }
+
+    body.theme-xve .legal-data-label {
+        border-bottom: 1px solid var(--border);
+        padding: 0.5rem 0.85rem;
+    }
+
+    body.theme-xve .legal-data-value {
+        padding: 0.5rem 0.85rem;
+    }
+}
+
+/* Disclaimer notice at page bottom */
+body.theme-xve .legal-disclaimer {
+    font-size: 0.8rem;
+    color: var(--text-3);
+    font-style: italic;
+    padding: 1rem 1.25rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* Bottom nav links */
+body.theme-xve .legal-nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    margin-top: 1rem;
+}
+
+body.theme-xve .legal-nav-links a {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-2);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+body.theme-xve .legal-nav-links a:hover {
+    color: var(--red);
+}
+
+/* ==========================================================================
+   COOKIE BANNER
+   ========================================================================== */
+
+body.theme-xve .cookie-banner {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 2rem);
+    max-width: 780px;
+    z-index: 9999;
+    background: var(--bg-card);
+    border: 1px solid var(--border-red);
+    border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(220, 30, 30, 0.08);
+    animation: cookie-slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cookie-slide-up {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(1.5rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+body.theme-xve .cookie-banner-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    padding: 1.25rem 1.5rem;
+}
+
+@media (min-width: 640px) {
+    body.theme-xve .cookie-banner-inner {
+        flex-direction: row;
+        align-items: center;
+        gap: 1.5rem;
+    }
+}
+
+body.theme-xve .cookie-banner-text {
+    flex: 1;
+    min-width: 0;
+}
+
+body.theme-xve .cookie-banner-title {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.01em;
+}
+
+body.theme-xve .cookie-banner-body {
+    font-size: 0.82rem;
+    color: var(--text-2);
+    line-height: 1.55;
+    margin: 0;
+}
+
+body.theme-xve .cookie-banner-link {
+    color: var(--red);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    white-space: nowrap;
+    transition: color 0.2s;
+}
+
+body.theme-xve .cookie-banner-link:hover {
+    color: var(--red-bright);
+}
+
+body.theme-xve .cookie-banner-actions {
+    display: flex;
+    gap: 0.65rem;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+body.theme-xve .cookie-btn {
+    padding: 0.55rem 1.1rem;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+body.theme-xve .cookie-btn-reject {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--text-2);
+}
+
+body.theme-xve .cookie-btn-reject:hover {
+    border-color: var(--text-3);
+    color: var(--text);
+}
+
+body.theme-xve .cookie-btn-accept {
+    background: var(--red);
+    border-color: var(--red);
+    color: #ffffff;
+}
+
+body.theme-xve .cookie-btn-accept:hover {
+    background: var(--red-bright);
+    border-color: var(--red-bright);
+    box-shadow: 0 0 16px var(--red-glow);
+}
+
+@media (max-width: 400px) {
+    body.theme-xve .cookie-banner-actions {
+        flex-direction: column;
+    }
+
+    body.theme-xve .cookie-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Footer legal links: "Gestionar cookies" reset trigger */
+body.theme-xve .footer-legal-manage {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    font-size: inherit;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+body.theme-xve .footer-legal-manage:hover {
+    color: var(--red);
+}

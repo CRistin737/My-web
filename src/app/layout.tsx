@@ -9,6 +9,7 @@ const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrai
 
 import { constructMetadata, generateJsonLd } from "@/lib/seo-config";
 import { GoogleAnalytics, GTMNoScript } from "@/components/analytics/GoogleAnalytics";
+import { CookieBanner } from "@/components/blocks/CookieBanner";
 
 export const metadata = constructMetadata({
   businessName: "XVE Studio",
@@ -40,6 +41,7 @@ export default function RootLayout({
         />
         <GoogleAnalytics />
         {children}
+        <CookieBanner />
       </body>
     </html>
   );
