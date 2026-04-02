@@ -1199,6 +1199,61 @@ body.theme-xve .plan-features li svg {
     margin-top: 2px;
 }
 
+/* Toggle */
+body.theme-xve .pricing-toggle-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+body.theme-xve .pricing-toggle {
+    position: relative;
+    display: inline-flex;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 4px;
+    gap: 0;
+}
+
+body.theme-xve .pricing-toggle-btn {
+    position: relative;
+    z-index: 2;
+    padding: 0.55rem 1.5rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: color 0.25s;
+    white-space: nowrap;
+}
+
+body.theme-xve .pricing-toggle-btn--active {
+    color: #fff;
+}
+
+body.theme-xve .pricing-toggle-indicator {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    width: calc(50% - 4px);
+    background: var(--red);
+    border-radius: 6px;
+    z-index: 1;
+}
+
+@media (max-width: 480px) {
+    body.theme-xve .pricing-toggle-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+    }
+}
+
 body.theme-xve .pricing-note {
     text-align: center;
     color: var(--text-3);

@@ -42,7 +42,7 @@ export default function Home() {
       <Work content={siteData.work} />
       <About content={siteData.about} />
       <Testimonials content={siteData.testimonials} />
-      <Pricing content={siteData.pricing} />
+      <Pricing content={siteData.pricing} hosting={siteData.hosting} />
       <FAQ content={siteData.faq} />
       <CTA content={siteData.cta} />
       <ContactForm />
