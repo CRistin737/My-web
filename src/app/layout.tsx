@@ -8,7 +8,7 @@ const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfa
 const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains" });
 
 import { constructMetadata, generateJsonLd } from "@/lib/seo-config";
-import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { GoogleAnalytics, GTMNoScript } from "@/components/analytics/GoogleAnalytics";
 
 export const metadata = constructMetadata({
   businessName: "XVE Studio",
@@ -33,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="es" data-mode="light">
       <body className={`${inter.variable} ${playfair.variable} ${jetbrains.variable} antialiased theme-xve`} data-mode="light">
+        <GTMNoScript />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
