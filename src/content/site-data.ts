@@ -4,7 +4,7 @@ export const siteData = {
         appName: "XVE Studio",
         logoText: "XVE Studio",
         whatsappLink: "https://wa.me/18094998166",
-        email: "xvestudio@gmail.com",
+        email: "xvestudio@hotmail.com",
         phone: "+1 (809) 499-8166",
         address: "Esperanza, Valverde — República Dominicana",
         socials: {
@@ -254,7 +254,7 @@ export const siteData = {
             {
                 name: "Completo",
                 price: "RD$45,000",
-                priceEnd: "– 120,000",
+                priceEnd: "– 150,000",
                 desc: "Solución premium con animaciones 3D, integraciones avanzadas y panel de analytics.",
                 features: [
                     "E-commerce o web corporativa completa",
@@ -326,10 +326,10 @@ export const siteData = {
             name: "XVE STUDIO",
             tagline: "Diseño y desarrollo web de alto impacto para marcas que quieren ser recordadas."
         },
-        copyright: "© 2025 XVE Studio. Todos los derechos reservados.",
+        copyright: "© 2026 XVE Studio. Todos los derechos reservados.",
         designer: {
             name: "Cristian Santos",
-            url: "https://www.instagram.com/cris_dev0/"
+            url: "https://www.instagram.com/crissantosjs_/"
         }
     }
 };
