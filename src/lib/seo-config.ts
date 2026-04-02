@@ -127,7 +127,11 @@ export function constructMetadata({
             "ICBM": `${BUSINESS.geo.lat}, ${BUSINESS.geo.lng}`,
         },
         icons: {
-            icon: '/image/xve-logo.ico',
+            icon: [
+                { url: '/favicon.ico', sizes: '48x48' },
+                { url: '/icon.svg', type: 'image/svg+xml' },
+            ],
+            apple: '/image/xve-logo.ico',
         },
     };
 }
