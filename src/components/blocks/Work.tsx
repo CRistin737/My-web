@@ -2,7 +2,8 @@
 
 import { useState, ReactElement, CSSProperties } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { X, ArrowRight, CheckCircle2 } from "lucide-react";
+import { X, ArrowRight, CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
 import type { SiteData } from "@/content/site-data";
 
 type Project = SiteData["work"]["items"][number];
@@ -132,6 +133,31 @@ function MockStartup() {
     );
 }
 
+// ─── Real Image Visual ───────────────────────────────────────────────────────
+function ProjectVisual({ project, index, imageIndex = 0 }: {
+    project: Project;
+    index: number;
+    imageIndex?: number;
+}) {
+    if (project.images && project.images.length > 0) {
+        const src = project.images[imageIndex] ?? project.images[0];
+        return (
+            <div className="work-mock-screen work-real-img-screen" style={{ background: project.gradient } as CSSProperties}>
+                <Image
+                    src={src}
+                    alt={`${project.title} — captura ${imageIndex + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="work-real-img"
+                />
+                <div className="work-hud-tl">{project.category}</div>
+                <div className="work-hud-tr">{project.year}</div>
+            </div>
+        );
+    }
+    return <MockVisual project={project} index={index} />;
+}
+
 // ─── Featured 3D Card ─────────────────────────────────────────────────────────
 function FeaturedCard({ project, index, onDetails }: {
     project: Project;
@@ -158,7 +184,7 @@ function FeaturedCard({ project, index, onDetails }: {
                 className="work-card-3d"
                 style={{ rotateX: sRotX, rotateY: sRotY, transformStyle: "preserve-3d" as const }}
             >
-                <MockVisual project={project} index={index} />
+                <ProjectVisual project={project} index={index} />
 
                 {/* Floating 3D label */}
                 <div className="work-card-floating-tag" style={{ transform: "translateZ(24px)" }}>
@@ -186,6 +212,13 @@ function ProjectModal({ project, index, onClose }: {
     index: number;
     onClose: () => void;
 }) {
+    const [galleryIdx, setGalleryIdx] = useState(0);
+    const hasImages = project.images && project.images.length > 0;
+    const totalImages = hasImages ? project.images.length : 0;
+
+    const prevImage = () => setGalleryIdx(i => (i - 1 + totalImages) % totalImages);
+    const nextImage = () => setGalleryIdx(i => (i + 1) % totalImages);
+
     return (
         <motion.div
             className="work-modal-overlay"
@@ -265,22 +298,78 @@ function ProjectModal({ project, index, onClose }: {
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.15 }}
                         >
-                            <MockVisual project={project} index={index} />
+                            {hasImages ? (
+                                <div className="work-gallery-main-wrap">
+                                    <AnimatePresence mode="wait">
+                                        <motion.div
+                                            key={galleryIdx}
+                                            className="work-gallery-main-img"
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <Image
+                                                src={project.images[galleryIdx]}
+                                                alt={`${project.title} — captura ${galleryIdx + 1}`}
+                                                fill
+                                                sizes="(max-width: 768px) 100vw, 50vw"
+                                                className="work-real-img"
+                                            />
+                                        </motion.div>
+                                    </AnimatePresence>
+                                    {totalImages > 1 && (
+                                        <>
+                                            <button className="work-gallery-nav work-gallery-prev" onClick={prevImage} aria-label="Anterior">
+                                                <ChevronLeft size={18} />
+                                            </button>
+                                            <button className="work-gallery-nav work-gallery-next" onClick={nextImage} aria-label="Siguiente">
+                                                <ChevronRight size={18} />
+                                            </button>
+                                            <span className="work-gallery-counter">{galleryIdx + 1} / {totalImages}</span>
+                                        </>
+                                    )}
+                                </div>
+                            ) : (
+                                <MockVisual project={project} index={index} />
+                            )}
                         </motion.div>
-                        <div className="work-modal-mini-row">
-                            {[0.75, 0.5].map((op, i) => (
-                                <motion.div
-                                    key={i}
-                                    className="work-modal-mini"
-                                    initial={{ opacity: 0, y: 12 }}
-                                    animate={{ opacity: op, y: 0 }}
-                                    transition={{ delay: 0.25 + i * 0.1 }}
-                                    style={{ background: project.gradient } as CSSProperties}
-                                >
-                                    <div className="work-scanlines" />
-                                </motion.div>
-                            ))}
-                        </div>
+
+                        {hasImages ? (
+                            <div className="work-modal-thumbs-row">
+                                {project.images.map((src, i) => (
+                                    <button
+                                        key={i}
+                                        className={`work-modal-thumb${i === galleryIdx ? " active" : ""}`}
+                                        onClick={() => setGalleryIdx(i)}
+                                        aria-label={`Ver captura ${i + 1}`}
+                                    >
+                                        <Image
+                                            src={src}
+                                            alt={`Miniatura ${i + 1}`}
+                                            fill
+                                            sizes="80px"
+                                            className="work-real-img"
+                                        />
+                                    </button>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="work-modal-mini-row">
+                                {[0.75, 0.5].map((op, i) => (
+                                    <motion.div
+                                        key={i}
+                                        className="work-modal-mini"
+                                        initial={{ opacity: 0, y: 12 }}
+                                        animate={{ opacity: op, y: 0 }}
+                                        transition={{ delay: 0.25 + i * 0.1 }}
+                                        style={{ background: project.gradient } as CSSProperties}
+                                    >
+                                        <div className="work-scanlines" />
+                                    </motion.div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
             </motion.div>
