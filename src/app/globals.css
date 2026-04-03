@@ -86,3 +86,27 @@
   0%, 100% { transform: translateY(0px); }
   50%       { transform: translateY(-6px); }
 }
+
+@media (max-width: 767px) {
+  .floating-whatsapp {
+    width: 54px;
+    height: 54px;
+    right: calc(1rem + env(safe-area-inset-right));
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+
+  .floating-whatsapp svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  body.theme-xve:has(.cookie-banner) .floating-whatsapp {
+    bottom: calc(7.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 480px) {
+  body.theme-xve:has(.cookie-banner) .floating-whatsapp {
+    bottom: calc(9rem + env(safe-area-inset-bottom));
+  }
+}

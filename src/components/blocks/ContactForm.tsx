@@ -19,8 +19,14 @@ import { Send } from "lucide-react";
 import { motion } from "framer-motion";
 import { ToastXVE, type ToastType } from "@/components/ui/toast-xve";
 
+const SERVICES = [
+    { group: "Diseño Web", items: ["Básico", "Profesional", "Completo", "Software a Medida"] },
+    { group: "Mantenimiento", items: ["ESENCIAL", "CRECIMIENTO", "ÉLITE", "Por Demanda"] },
+];
+
 export const ContactForm = () => {
     const [submitting, setSubmitting] = useState(false);
+    const [selectedService, setSelectedService] = useState("");
     const [toast, setToast] = useState<{ visible: boolean; type: ToastType }>({ visible: false, type: "success" });
 
     const closeToast = useCallback(() => setToast(prev => ({ ...prev, visible: false })), []);
@@ -33,7 +39,7 @@ export const ContactForm = () => {
         const data = {
             name: (form.elements.namedItem("name") as HTMLInputElement).value,
             email: (form.elements.namedItem("email") as HTMLInputElement).value,
-            service: (form.elements.namedItem("service") as HTMLSelectElement).value,
+            service: selectedService || "No especificado",
             message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
         };
 
@@ -47,6 +53,7 @@ export const ContactForm = () => {
             if (!res.ok) throw new Error();
             setToast({ visible: true, type: "success" });
             form.reset();
+            setSelectedService("");
         } catch {
             setToast({ visible: true, type: "error" });
         } finally {
@@ -77,6 +84,7 @@ export const ContactForm = () => {
                                 <input
                                     type="text"
                                     id="name"
+                                    name="name"
                                     required
                                     placeholder="Tu nombre"
                                     className="contact-input"
@@ -87,6 +95,7 @@ export const ContactForm = () => {
                                 <input
                                     type="email"
                                     id="email"
+                                    name="email"
                                     required
                                     placeholder="tu@email.com"
                                     className="contact-input"
@@ -94,22 +103,36 @@ export const ContactForm = () => {
                             </div>
                         </div>
 
-                        <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginBottom: "1.25rem" }}>
-                            <label htmlFor="service" className="contact-label">Servicio de interés</label>
-                            <select id="service" className="contact-input">
-                                <option value="">Seleccionar servicio...</option>
-                                <option>Plan Básico</option>
-                                <option>Plan Profesional</option>
-                                <option>Plan Completo</option>
-                                <option>Software a Medida</option>
-                                <option>Otro / Consulta general</option>
-                            </select>
+                        <div className="contact-service-picker">
+                            <span className="contact-label">Servicio de interés</span>
+                            {SERVICES.map((group) => (
+                                <div key={group.group} className="contact-chip-group">
+                                    <span className="contact-chip-group-label">{group.group}</span>
+                                    <div className="contact-chips">
+                                        {group.items.map((item) => {
+                                            const value = `${group.group} — ${item}`;
+                                            const active = selectedService === value;
+                                            return (
+                                                <button
+                                                    key={item}
+                                                    type="button"
+                                                    className={`contact-chip ${active ? "contact-chip--active" : ""}`}
+                                                    onClick={() => setSelectedService(active ? "" : value)}
+                                                >
+                                                    {item}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
 
                         <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginBottom: "2rem" }}>
                             <label htmlFor="message" className="contact-label">Mensaje</label>
                             <textarea
                                 id="message"
+                                name="message"
                                 rows={5}
                                 required
                                 placeholder="Cuéntanos sobre tu proyecto o negocio..."

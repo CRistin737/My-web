@@ -241,7 +241,7 @@ export const Hero = ({ content }: { content: SiteData["hero"] }) => {
                 >
                     <span className="hero-eyebrow">
                         <span className="hero-eyebrow-dot" />
-                        Diseño web · Esperanza · Santiago · Mao · Navarrete
+                        Diseño web · Esperanza, Valverde RD
                     </span>
                 </motion.div>
 
@@ -261,6 +261,7 @@ export const Hero = ({ content }: { content: SiteData["hero"] }) => {
                         initial="hidden"
                         animate="visible"
                         className="hero-highlight"
+                        style={{ display: "block" }}
                     >
                         {content.title.highlight}
                     </motion.span>
@@ -293,20 +294,6 @@ export const Hero = ({ content }: { content: SiteData["hero"] }) => {
             </div>
 
             {/* Scroll hint */}
-            <motion.div
-                className="hero-scroll-hint"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2, duration: 1 }}
-            >
-                <span>Scroll</span>
-                <motion.div
-                    animate={{ y: [0, 8, 0] }}
-                    transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-                >
-                    <ChevronDown size={16} />
-                </motion.div>
-            </motion.div>
         </section>
     );
 };

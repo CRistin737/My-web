@@ -1,6 +1,6 @@
 "use client";
 
-import { Facebook, Twitter, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
 import type { SiteData } from "@/content/site-data";
 
 function resetCookieConsent() {
@@ -27,10 +27,8 @@ export const Footer = ({ content }: { content: SiteData }) => {
                             XVE Studio es una marca comercial operada por Poszy E.I.R.L.
                         </p>
                         <div className="footer-socials">
-                            <a href={content.general.socials.instagram} aria-label="Instagram"><Instagram size={16} /></a>
-                            <a href={content.general.socials.twitter} aria-label="Twitter"><Twitter size={16} /></a>
-                            <a href={content.general.socials.linkedin} aria-label="LinkedIn"><Linkedin size={16} /></a>
-                            <a href={content.general.socials.facebook} aria-label="Facebook"><Facebook size={16} /></a>
+                            <a href={content.general.socials.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Instagram size={16} /></a>
+                            <a href={content.general.socials.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"><Facebook size={16} /></a>
                         </div>
                     </div>
 

@@ -127,11 +127,8 @@ export function constructMetadata({
             "ICBM": `${BUSINESS.geo.lat}, ${BUSINESS.geo.lng}`,
         },
         icons: {
-            icon: [
-                { url: '/favicon.ico', sizes: '48x48' },
-                { url: '/icon.svg', type: 'image/svg+xml' },
-            ],
-            apple: '/image/xve-logo.ico',
+            icon: '/favicon.ico',
+            apple: '/favicon.ico',
         },
     };
 }
@@ -204,7 +201,10 @@ export function generateJsonLd() {
                     },
                 ],
             },
-            "sameAs": [],
+            "sameAs": [
+                "https://www.instagram.com/xvestudiooficial?igsh=eTZya2J1NjlicXN3&utm_source=qr",
+                "https://www.facebook.com/share/17KK8dRSFN/?mibextid=wwXIfr",
+            ],
         },
         // WebSite schema for sitelinks search
         {

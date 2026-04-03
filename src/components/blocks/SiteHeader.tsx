@@ -32,13 +32,13 @@ const ROTATING_WORDS = [
 ];
 
 const XVELogo = () => (
-    <span className="xve-logo" aria-label="XVE Studio">
+    <span className="xve-logo">
         <span className="xve-logo-xv">XV</span><span className="xve-logo-e">E Studio</span>
     </span>
 );
 
 const XVELogoAnimated = () => (
-    <span className="xve-logo" aria-label="XVE Studio">
+    <span className="xve-logo">
         <span className="xve-logo-xv">XV</span><span className="xve-logo-e">E</span>
         <TextRotate
             texts={ROTATING_WORDS}
@@ -118,8 +118,13 @@ export const SiteHeader = ({ content }: { content: SiteData }) => {
                 transition={{ duration: 0.4, ease: "easeInOut" }}
             >
                 <div className="header-inner">
-                    <a href="#">
-                        <XVELogoAnimated />
+                    <a href="#" className="header-logo-link" aria-label="XVE Studio">
+                        <span className="header-logo-mobile" aria-hidden="true">
+                            <XVELogo />
+                        </span>
+                        <span className="header-logo-desktop" aria-hidden="true">
+                            <XVELogoAnimated />
+                        </span>
                     </a>
 
                     <nav className="desktop-nav">

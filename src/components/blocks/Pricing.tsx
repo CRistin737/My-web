@@ -74,16 +74,15 @@ export const Pricing = ({ content, hosting }: {
                                 transition={{ delay: index * 0.06, duration: 0.4 }}
                                 className={`pricing-card ${plan.isFeatured ? "featured" : ""} ${plan.isSoftware ? "software" : ""}`}
                             >
-                                {plan.badge && (
-                                    <div className="badge">{plan.badge}</div>
-                                )}
+                                {/* Badge — always takes space */}
+                                <div className="plan-badge-slot">
+                                    {plan.badge && <div className="badge">{plan.badge}</div>}
+                                </div>
 
                                 <h3 className="plan-name">{plan.name}</h3>
 
                                 <div className="plan-price">{plan.price}</div>
-                                {plan.priceEnd && (
-                                    <div className="plan-price-end">{plan.priceEnd}</div>
-                                )}
+                                <div className="plan-price-end">{plan.priceEnd || "\u00A0"}</div>
 
                                 <p className="plan-desc">{plan.desc}</p>
 
