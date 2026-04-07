@@ -1442,6 +1442,112 @@ body.theme-xve .pricing-toggle-pill {
     box-shadow: 0 0 20px rgba(220, 30, 30, 0.35), 0 0 4px rgba(220, 30, 30, 0.5);
 }
 
+/* ── Billing cycle toggle (Mensual / Anual) ── */
+body.theme-xve .billing-toggle-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: -1.5rem;
+    margin-bottom: 2.25rem;
+}
+
+body.theme-xve .billing-toggle {
+    position: relative;
+    display: inline-flex;
+    width: min(100%, 320px);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 4px;
+}
+
+body.theme-xve .billing-toggle-btn {
+    position: relative;
+    z-index: 2;
+    flex: 1 1 0;
+    padding: 0.5rem 1rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    background: transparent;
+    border: none;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: color 0.25s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    white-space: nowrap;
+}
+
+body.theme-xve .billing-toggle-btn--active {
+    color: #fff;
+}
+
+body.theme-xve .billing-discount-badge {
+    display: inline-block;
+    padding: 0.15rem 0.4rem;
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.45);
+    border-radius: 999px;
+    color: rgb(74, 222, 128);
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    line-height: 1;
+}
+
+body.theme-xve .billing-toggle-btn--active .billing-discount-badge {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.35);
+    color: #fff;
+}
+
+body.theme-xve .billing-toggle-pill {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    background: var(--red);
+    border-radius: 99px;
+    z-index: 1;
+    box-shadow: 0 0 20px rgba(220, 30, 30, 0.35), 0 0 4px rgba(220, 30, 30, 0.5);
+}
+
+/* Plan savings note (shown when annual is selected) */
+body.theme-xve .plan-savings {
+    display: inline-block;
+    align-self: center;
+    margin: 0.5rem 0 0.25rem;
+    padding: 0.3rem 0.75rem;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.35);
+    border-radius: 999px;
+    color: rgb(74, 222, 128);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-align: center;
+}
+
+@media (max-width: 480px) {
+    body.theme-xve .billing-toggle-btn {
+        padding: 0.45rem 0.75rem;
+        font-size: 0.65rem;
+    }
+
+    body.theme-xve .billing-discount-badge {
+        font-size: 0.5rem;
+        padding: 0.12rem 0.35rem;
+    }
+
+    body.theme-xve .plan-savings {
+        font-size: 0.62rem;
+        padding: 0.25rem 0.6rem;
+    }
+}
+
 @media (max-width: 480px) {
     body.theme-xve .pricing-toggle {
         width: 100%;
@@ -2623,16 +2729,916 @@ body.theme-xve .work-modal-mini {
     position: relative;
 }
 
-/* ── Real Image Visuals ────────────────────────────────── */
-body.theme-xve .work-real-img-screen {
-    position: relative;
+/* ═══════════════════════════════════════════════════════════
+   NEW WORK CARD (wk-*) — Clean gallery with real screenshots
+   ═══════════════════════════════════════════════════════════ */
+
+/* Outer card — just a clean container, no frame, no shadow */
+body.theme-xve .wk-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
 }
 
-body.theme-xve .work-real-img {
-    object-fit: cover;
-    object-position: top left;
+/* Mock visual wrapper (for projects without real images) */
+body.theme-xve .wk-card-mock {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border);
+}
+
+/* ── Image Gallery ── */
+body.theme-xve .wk-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+/* Main big image button */
+body.theme-xve .wk-gallery-main {
+    position: relative;
     width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0;
+    cursor: pointer;
+    box-shadow:
+        0 30px 70px rgba(0, 0, 0, 0.55),
+        0 10px 30px rgba(0, 0, 0, 0.35);
+    transition:
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.3s;
+}
+
+body.theme-xve .wk-gallery-main:hover {
+    transform: translateY(-4px);
+    border-color: rgba(220, 30, 30, 0.45);
+    box-shadow:
+        0 45px 100px rgba(0, 0, 0, 0.7),
+        0 15px 40px rgba(0, 0, 0, 0.45),
+        0 0 0 1px rgba(220, 30, 30, 0.35),
+        0 0 60px rgba(220, 30, 30, 0.12);
+}
+
+body.theme-xve .wk-gallery-main-inner {
+    position: absolute;
+    inset: 0;
+}
+
+/* Shared image rule — ensures real screenshots fill cleanly */
+body.theme-xve .wk-gallery-img {
+    object-fit: cover;
+    object-position: top center;
+}
+
+/* "Ver detalles" overlay that appears on hover */
+body.theme-xve .wk-gallery-expand {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    z-index: 5;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0.9rem;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s, transform 0.3s, background 0.3s;
+    pointer-events: none;
+}
+
+body.theme-xve .wk-gallery-main:hover .wk-gallery-expand {
+    opacity: 1;
+    transform: translateY(0);
+    background: rgba(220, 30, 30, 0.9);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Thumbnail strip */
+body.theme-xve .wk-gallery-thumbs {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.55rem;
+}
+
+body.theme-xve .wk-gallery-thumb {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #0a0a0a;
+    border: 2px solid transparent;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0.55;
+    transition: opacity 0.25s, border-color 0.25s, transform 0.25s;
+}
+
+body.theme-xve .wk-gallery-thumb:hover {
+    opacity: 0.85;
+    transform: translateY(-2px);
+}
+
+body.theme-xve .wk-gallery-thumb.is-active {
+    opacity: 1;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent), 0 8px 20px rgba(220, 30, 30, 0.25);
+}
+
+/* Card footer: tags + CTA */
+body.theme-xve .wk-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+body.theme-xve .wk-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+body.theme-xve .wk-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.3rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+    flex-shrink: 0;
+}
+
+body.theme-xve .wk-card-cta:hover {
+    transform: translateY(-2px);
+    background: #ff2020;
+    box-shadow: 0 12px 30px rgba(220, 30, 30, 0.4);
+}
+
+/* ── Modal Image Gallery (wk-modal-*) ── */
+body.theme-xve .wk-modal-main-img {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1440 / 833;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #050505;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 0.85rem;
+}
+
+/* In modal, always show the full image (contain) so panel screenshots
+   with different aspect ratios aren't cropped */
+body.theme-xve .wk-modal-main-img .wk-gallery-img {
+    object-fit: contain;
+    object-position: center;
+}
+
+body.theme-xve .wk-modal-img-wrap {
+    position: absolute;
+    inset: 0;
+}
+
+body.theme-xve .wk-modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s, transform 0.25s;
+}
+
+body.theme-xve .wk-modal-nav:hover {
+    background: rgba(220, 30, 30, 0.85);
+    border-color: rgba(220, 30, 30, 0.6);
+    transform: translateY(-50%) scale(1.08);
+}
+
+body.theme-xve .wk-modal-nav-prev { left: 12px; }
+body.theme-xve .wk-modal-nav-next { right: 12px; }
+
+body.theme-xve .wk-modal-counter {
+    position: absolute;
+    bottom: 12px;
+    right: 14px;
+    z-index: 10;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    padding: 4px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.05em;
+}
+
+body.theme-xve .wk-modal-thumbs {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+}
+
+body.theme-xve .wk-modal-thumb {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #0a0a0a;
+    border: 2px solid transparent;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0.55;
+    transition: opacity 0.25s, border-color 0.25s;
+}
+
+/* Thumbnails in the modal show cropped preview — fine for small size */
+body.theme-xve .wk-modal-thumb .wk-gallery-img {
+    object-fit: cover;
+    object-position: top center;
+}
+
+body.theme-xve .wk-modal-thumb:hover {
+    opacity: 0.85;
+}
+
+body.theme-xve .wk-modal-thumb.is-active {
+    opacity: 1;
+    border-color: var(--accent);
+}
+
+/* ── Zoom button on modal main image ── */
+body.theme-xve .wk-modal-zoom {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    z-index: 8;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.85rem;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.25s, transform 0.25s, background 0.25s, border-color 0.25s;
+}
+
+body.theme-xve .wk-modal-main-img:hover .wk-modal-zoom {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+body.theme-xve .wk-modal-zoom:hover {
+    background: rgba(220, 30, 30, 0.9);
+    border-color: rgba(220, 30, 30, 0.6);
+}
+
+/* ── Lightbox (full-screen image preview) ── */
+body.theme-xve .wk-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    cursor: zoom-out;
+}
+
+body.theme-xve .wk-lightbox-img-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
     height: 100%;
+    max-height: 85vh;
+    cursor: default;
+}
+
+body.theme-xve .wk-lightbox-img {
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+body.theme-xve .wk-lightbox-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    z-index: 10;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s, transform 0.25s;
+}
+
+body.theme-xve .wk-lightbox-close:hover {
+    background: rgba(220, 30, 30, 0.9);
+    border-color: rgba(220, 30, 30, 0.6);
+    transform: rotate(90deg);
+}
+
+body.theme-xve .wk-lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s, transform 0.25s;
+}
+
+body.theme-xve .wk-lightbox-nav:hover {
+    background: rgba(220, 30, 30, 0.85);
+    border-color: rgba(220, 30, 30, 0.6);
+    transform: translateY(-50%) scale(1.08);
+}
+
+body.theme-xve .wk-lightbox-nav-prev { left: 1.5rem; }
+body.theme-xve .wk-lightbox-nav-next { right: 1.5rem; }
+
+body.theme-xve .wk-lightbox-counter {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile lightbox tweaks */
+@media (max-width: 640px) {
+    body.theme-xve .wk-lightbox {
+        padding: 1rem;
+    }
+
+    body.theme-xve .wk-lightbox-close {
+        top: 0.75rem;
+        right: 0.75rem;
+        width: 38px;
+        height: 38px;
+    }
+
+    body.theme-xve .wk-lightbox-nav {
+        width: 40px;
+        height: 40px;
+    }
+
+    body.theme-xve .wk-lightbox-nav-prev { left: 0.75rem; }
+    body.theme-xve .wk-lightbox-nav-next { right: 0.75rem; }
+
+    body.theme-xve .wk-lightbox-counter {
+        bottom: 1rem;
+        font-size: 0.75rem;
+    }
+
+    /* Mobile: keep zoom button always visible */
+    body.theme-xve .wk-modal-zoom {
+        opacity: 1;
+        transform: translateY(0);
+        font-size: 0.65rem;
+        padding: 0.4rem 0.7rem;
+    }
+}
+
+/* Responsive: tablet + phone for modal gallery and misc */
+@media (max-width: 768px) {
+    body.theme-xve .wk-gallery-thumbs,
+    body.theme-xve .wk-modal-thumbs {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.35rem;
+    }
+
+    body.theme-xve .wk-card-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    body.theme-xve .wk-card-cta {
+        justify-content: center;
+        width: 100%;
+    }
+
+    body.theme-xve .wk-modal-nav {
+        width: 34px;
+        height: 34px;
+    }
+
+    body.theme-xve .wk-gallery-expand {
+        opacity: 1;
+        transform: translateY(0);
+        bottom: 10px;
+        right: 10px;
+        font-size: 0.65rem;
+        padding: 0.45rem 0.75rem;
+    }
+
+    /* Zoom button always visible on touch devices */
+    body.theme-xve .wk-modal-zoom {
+        opacity: 1;
+        transform: translateY(0);
+        top: 10px;
+        right: 10px;
+        font-size: 0.62rem;
+        padding: 0.4rem 0.7rem;
+    }
+
+    body.theme-xve .wk-modal-counter {
+        font-size: 0.65rem;
+        bottom: 8px;
+        right: 10px;
+        padding: 3px 8px;
+    }
+}
+
+/* Very small screens — even tighter modal gallery */
+@media (max-width: 480px) {
+    body.theme-xve .wk-modal-thumbs,
+    body.theme-xve .wk-gallery-thumbs {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.3rem;
+    }
+
+    body.theme-xve .wk-modal-nav {
+        width: 30px;
+        height: 30px;
+    }
+
+    body.theme-xve .wk-modal-nav svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   XVE PROJECTS GRID (portfolio tiles, click → modal)
+   ═══════════════════════════════════════════════════════════ */
+
+body.theme-xve .xve-projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 680px));
+    gap: 2.5rem;
+    margin-top: 3rem;
+    justify-content: center;
+}
+
+/* Each card is a button so the entire tile is clickable */
+body.theme-xve .xve-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    width: 100%;
+    max-width: 680px;
+    justify-self: center;
+}
+
+/* The device "frame" that wraps the screenshot */
+body.theme-xve .xve-card-frame {
+    position: relative;
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.5),
+        0 10px 25px rgba(0, 0, 0, 0.3);
+    transition:
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.35s,
+        box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.theme-xve .xve-card:hover .xve-card-frame {
+    transform: translateY(-8px);
+    border-color: rgba(220, 30, 30, 0.55);
+    box-shadow:
+        0 50px 110px rgba(0, 0, 0, 0.7),
+        0 25px 60px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(220, 30, 30, 0.3),
+        0 0 70px rgba(220, 30, 30, 0.15);
+}
+
+/* Top chrome — minimal 3-dot bar */
+body.theme-xve .xve-card-chrome {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.7rem 1rem;
+    background: rgba(0, 0, 0, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    z-index: 2;
+}
+
+body.theme-xve .xve-card-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    transition: background 0.3s;
+}
+
+body.theme-xve .xve-card:hover .xve-card-dot:nth-child(1) {
+    background: rgba(220, 30, 30, 0.8);
+}
+
+body.theme-xve .xve-card-chrome-num {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Screen area — aspect ratio matches the actual screenshot dimensions (1440x833)
+   so nothing gets cropped on the sides */
+body.theme-xve .xve-card-screen {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1440 / 833;
+    overflow: hidden;
+    background: #0a0a0a;
+}
+
+body.theme-xve .xve-card-img {
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.theme-xve .xve-card:hover .xve-card-img {
+    transform: scale(1.04);
+}
+
+/* Hover overlay — dark gradient + "Ver proyecto" label */
+body.theme-xve .xve-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        transparent 40%,
+        rgba(0, 0, 0, 0.5) 75%,
+        rgba(10, 0, 0, 0.85) 100%
+    );
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+}
+
+body.theme-xve .xve-card:hover .xve-card-overlay {
+    opacity: 1;
+}
+
+body.theme-xve .xve-card-overlay-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.75rem 1.2rem;
+    background: rgba(220, 30, 30, 0.95);
+    border-radius: 999px;
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    transform: translateY(12px);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 10px 30px rgba(220, 30, 30, 0.45);
+}
+
+body.theme-xve .xve-card:hover .xve-card-overlay-inner {
+    transform: translateY(0);
+}
+
+body.theme-xve .xve-card-overlay-label {
+    text-transform: uppercase;
+}
+
+/* Info row below the frame */
+body.theme-xve .xve-card-info {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: 0 0.3rem;
+}
+
+body.theme-xve .xve-card-info-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 0;
+}
+
+body.theme-xve .xve-card-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.2;
+    transition: color 0.3s;
+}
+
+body.theme-xve .xve-card:hover .xve-card-title {
+    color: var(--accent);
+}
+
+body.theme-xve .xve-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+body.theme-xve .xve-card-category {
+    color: var(--text-soft, var(--muted));
+}
+
+body.theme-xve .xve-card-dot-sep {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+body.theme-xve .xve-card-year {
+    color: var(--accent);
+}
+
+body.theme-xve .xve-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    justify-content: flex-end;
+    flex-shrink: 0;
+}
+
+body.theme-xve .xve-card-tag {
+    display: inline-block;
+    padding: 0.3rem 0.65rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    transition: border-color 0.3s, color 0.3s;
+}
+
+body.theme-xve .xve-card:hover .xve-card-tag {
+    border-color: rgba(220, 30, 30, 0.3);
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Light mode adjustments */
+body.theme-xve[data-mode="light"] .xve-card-frame {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.08),
+        0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+body.theme-xve[data-mode="light"] .xve-card-chrome {
+    background: rgba(245, 245, 245, 0.95);
+    border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+body.theme-xve[data-mode="light"] .xve-card-dot {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+body.theme-xve[data-mode="light"] .xve-card-screen {
+    background: #f5f5f5;
+}
+
+body.theme-xve[data-mode="light"] .xve-card-tag {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.08);
+    color: rgba(0, 0, 0, 0.6);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — Work section (Tablet → Mobile)
+   ═══════════════════════════════════════════════════════════ */
+
+/* Tablet: single column, grid stays centered */
+@media (max-width: 900px) {
+    body.theme-xve .xve-projects-grid {
+        grid-template-columns: minmax(0, 680px);
+        gap: 2rem;
+        margin-top: 2.5rem;
+    }
+
+    body.theme-xve .xve-card-title {
+        font-size: 1.25rem;
+    }
+
+    body.theme-xve .xve-card-chrome {
+        padding: 0.6rem 0.9rem;
+    }
+}
+
+/* Small tablet / large phone */
+@media (max-width: 640px) {
+    body.theme-xve .xve-projects-grid {
+        grid-template-columns: 1fr;
+        margin-top: 2rem;
+        gap: 1.75rem;
+    }
+
+    body.theme-xve .xve-card {
+        gap: 1rem;
+        max-width: 100%;
+    }
+
+    body.theme-xve .xve-card-frame {
+        border-radius: 12px;
+    }
+
+    body.theme-xve .xve-card-chrome {
+        padding: 0.55rem 0.85rem;
+    }
+
+    body.theme-xve .xve-card-dot {
+        width: 8px;
+        height: 8px;
+    }
+
+    body.theme-xve .xve-card-chrome-num {
+        font-size: 0.58rem;
+    }
+
+    body.theme-xve .xve-card-title {
+        font-size: 1.1rem;
+    }
+
+    body.theme-xve .xve-card-meta {
+        font-size: 0.62rem;
+        letter-spacing: 0.06em;
+    }
+
+    body.theme-xve .xve-card-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 0 0.15rem;
+    }
+
+    body.theme-xve .xve-card-tags {
+        justify-content: flex-start;
+    }
+
+    body.theme-xve .xve-card-tag {
+        font-size: 0.58rem;
+        padding: 0.25rem 0.55rem;
+    }
+
+    /* Show overlay on tap for touch devices (no :hover) */
+    body.theme-xve .xve-card-overlay {
+        opacity: 1;
+        background: linear-gradient(
+            180deg,
+            transparent 55%,
+            rgba(10, 0, 0, 0.7) 100%
+        );
+    }
+
+    body.theme-xve .xve-card-overlay-inner {
+        transform: translateY(0);
+        font-size: 0.65rem;
+        padding: 0.5rem 0.9rem;
+        gap: 0.5rem;
+    }
+
+    /* Disable hover animations on touch — the image stays natural */
+    body.theme-xve .xve-card:hover .xve-card-img {
+        transform: none;
+    }
+
+    body.theme-xve .xve-card:hover .xve-card-frame {
+        transform: none;
+    }
+}
+
+/* Small phones — ultra compact */
+@media (max-width: 400px) {
+    body.theme-xve .xve-projects-grid {
+        gap: 1.5rem;
+        margin-top: 1.75rem;
+    }
+
+    body.theme-xve .xve-card {
+        gap: 0.85rem;
+    }
+
+    body.theme-xve .xve-card-title {
+        font-size: 1rem;
+    }
+
+    body.theme-xve .xve-card-chrome {
+        padding: 0.45rem 0.7rem;
+        gap: 0.3rem;
+    }
+
+    body.theme-xve .xve-card-dot {
+        width: 7px;
+        height: 7px;
+    }
+
+    body.theme-xve .xve-card-chrome-num {
+        font-size: 0.55rem;
+    }
+
+    body.theme-xve .xve-card-overlay {
+        padding: 1rem;
+    }
+
+    body.theme-xve .xve-card-overlay-inner {
+        font-size: 0.6rem;
+        padding: 0.45rem 0.8rem;
+    }
 }
 
 body.theme-xve .work-gallery-main-wrap {

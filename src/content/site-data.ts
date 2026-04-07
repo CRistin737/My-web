@@ -77,7 +77,7 @@ export const siteData = {
         description: "Desde Esperanza, Valverde, creamos páginas web de nivel internacional para negocios locales. Ya sean restaurantes, clínicas, empresas o profesionales independientes — diseñamos sitios que no solo se ven bien, sino que traen clientes de verdad. Más de 8 años de experiencia nos respaldan.",
         stats: [
             { value: "8+", label: "Años de experiencia" },
-            { value: "50+", label: "Proyectos entregados" },
+            { value: "20+", label: "Proyectos entregados" },
             { value: "98%", label: "Clientes satisfechos" },
             { value: "3×", label: "Más conversiones promedio" },
         ]
@@ -92,6 +92,7 @@ export const siteData = {
                 category: "Web + Software a Medida",
                 tags: ["Next.js", "Tailwind CSS", "Supabase", "Express", "Node.js", "shadcn/ui"],
                 year: "2025",
+                domain: "aireexpressrd.com",
                 gradient: "radial-gradient(ellipse at 20% 30%, rgba(0,120,220,0.55) 0%, transparent 55%), radial-gradient(ellipse at 80% 80%, rgba(0,60,120,0.3) 0%, transparent 50%), #030b18",
                 mockType: "dashboard" as const,
                 images: [
@@ -118,27 +119,6 @@ export const siteData = {
                     "Autenticación segura con panel de login corporativo, roles de usuario diferenciados y control de acceso por permisos para proteger la información del negocio",
                 ],
                 results: "Aire Express pasó de operar 100% manual a tener un ecosistema digital completo. El catálogo online genera cotizaciones automáticas las 24 horas, la agenda de servicios eliminó los conflictos de horarios y las citas perdidas, el inventario dual redujo las pérdidas de stock en un 60%, y la calculadora de BTU se convirtió en una herramienta de venta que los clientes usan antes de solicitar servicio — aumentando las conversiones y posicionando a la empresa como la opción más profesional del mercado.",
-            },
-            {
-                id: "logistic-pro",
-                title: "LogisticPro RD",
-                client: "Distribuidora Nacional S.A.",
-                category: "Software a Medida",
-                tags: ["Next.js", "Node.js", "PostgreSQL", "Dashboard"],
-                year: "2024",
-                gradient: "radial-gradient(ellipse at 20% 30%, rgba(220,30,30,0.55) 0%, transparent 55%), radial-gradient(ellipse at 80% 80%, rgba(120,10,10,0.3) 0%, transparent 50%), #0b0303",
-                mockType: "dashboard" as const,
-                images: [] as string[],
-                business: "Empresa dominicana líder en distribución de productos de consumo masivo, con operaciones activas en 15 provincias del país.",
-                challenge: "Gestión manual de rutas, inventario disperso en Excel y falta de visibilidad para la gerencia sobre el estado de entregas en tiempo real.",
-                solution: [
-                    "Sistema de gestión de rutas y entregas en tiempo real",
-                    "Panel de control gerencial con KPIs y alertas",
-                    "App web para conductores (offline-first)",
-                    "Integración con sistema de facturación existente",
-                    "Reportes automáticos de rendimiento por zona",
-                ],
-                results: "Reducción del 40% en tiempo de entrega, visibilidad total de la cadena logística y ahorro de 12 horas semanales en gestión manual.",
             },
         ]
     },

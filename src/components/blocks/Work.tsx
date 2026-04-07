@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, ReactElement, CSSProperties } from "react";
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { X, ArrowRight, CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect, ReactElement, CSSProperties } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, CheckCircle2, ChevronLeft, ChevronRight, ArrowUpRight, Maximize2 } from "lucide-react";
 import Image from "next/image";
 import type { SiteData } from "@/content/site-data";
 
 type Project = SiteData["work"]["items"][number];
 
-// ─── Mock Visual (CSS art "screenshot") ──────────────────────────────────────
+// ─── Mock Visual (CSS art for projects without real screenshots) ──────────────
 function MockVisual({ project, index }: { project: Project; index: number }) {
     const types: Record<string, ReactElement> = {
         dashboard: <MockDashboard />,
@@ -20,27 +20,18 @@ function MockVisual({ project, index }: { project: Project; index: number }) {
 
     return (
         <div className="work-mock-screen" style={{ background: project.gradient } as CSSProperties}>
-            {/* Large bg number */}
             <span className="work-mock-bg-num">0{index + 1}</span>
-
-            {/* Browser chrome */}
             <div className="work-browser-chrome">
                 <span className="work-dot work-dot-r" />
                 <span className="work-dot work-dot-y" />
                 <span className="work-dot work-dot-g" />
                 <div className="work-url-bar">xvestudio.com/{project.id}</div>
             </div>
-
-            {/* Mock UI */}
             <div className="work-mock-body">
                 {types[project.mockType] ?? <MockLanding />}
             </div>
-
-            {/* HUD overlay */}
             <div className="work-hud-tl">{project.category}</div>
             <div className="work-hud-tr">{project.year}</div>
-
-            {/* Scanlines */}
             <div className="work-scanlines" />
         </div>
     );
@@ -133,91 +124,115 @@ function MockStartup() {
     );
 }
 
-// ─── Real Image Visual ───────────────────────────────────────────────────────
-function ProjectVisual({ project, index, imageIndex = 0 }: {
+// ─── Project Grid Card (XVE-style portfolio tile) ─────────────────────────────
+function ProjectCard({ project, index, onOpen }: {
     project: Project;
     index: number;
-    imageIndex?: number;
+    onOpen: () => void;
 }) {
-    if (project.images && project.images.length > 0) {
-        const src = project.images[imageIndex] ?? project.images[0];
-        return (
-            <div className="work-mock-screen work-real-img-screen" style={{ background: project.gradient } as CSSProperties}>
-                <Image
-                    src={src}
-                    alt={`${project.title} — captura ${imageIndex + 1}`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="work-real-img"
-                />
-                <div className="work-hud-tl">{project.category}</div>
-                <div className="work-hud-tr">{project.year}</div>
-            </div>
-        );
-    }
-    return <MockVisual project={project} index={index} />;
-}
-
-// ─── Featured 3D Card ─────────────────────────────────────────────────────────
-function FeaturedCard({ project, index, onDetails }: {
-    project: Project;
-    index: number;
-    onDetails: () => void;
-}) {
-    const mx = useMotionValue(0);
-    const my = useMotionValue(0);
-    const rotX = useTransform(my, [-0.5, 0.5], [8, -8]);
-    const rotY = useTransform(mx, [-0.5, 0.5], [-8, 8]);
-    const sRotX = useSpring(rotX, { stiffness: 100, damping: 18 });
-    const sRotY = useSpring(rotY, { stiffness: 100, damping: 18 });
-
-    const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        const r = e.currentTarget.getBoundingClientRect();
-        mx.set((e.clientX - r.left) / r.width - 0.5);
-        my.set((e.clientY - r.top) / r.height - 0.5);
-    };
-    const onLeave = () => { mx.set(0); my.set(0); };
+    const hasImages = project.images && project.images.length > 0;
+    const heroSrc = hasImages ? project.images[0] : null;
 
     return (
-        <div className="work-card-wrap" onMouseMove={onMove} onMouseLeave={onLeave}>
-            <motion.div
-                className="work-card-3d"
-                style={{ rotateX: sRotX, rotateY: sRotY, transformStyle: "preserve-3d" as const }}
-            >
-                <ProjectVisual project={project} index={index} />
-
-                {/* Floating 3D label */}
-                <div className="work-card-floating-tag" style={{ transform: "translateZ(24px)" }}>
-                    <span>{project.category}</span>
+        <motion.button
+            type="button"
+            className="xve-card"
+            onClick={onOpen}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+            aria-label={`Ver detalles de ${project.title}`}
+        >
+            {/* Device frame with screenshot */}
+            <div className="xve-card-frame">
+                {/* Top chrome: 3 dots */}
+                <div className="xve-card-chrome">
+                    <span className="xve-card-dot" />
+                    <span className="xve-card-dot" />
+                    <span className="xve-card-dot" />
+                    <div className="xve-card-chrome-num">0{index + 1}</div>
                 </div>
-            </motion.div>
 
-            <div className="work-card-actions">
-                <div className="work-card-tags-row">
-                    {project.tags.slice(0, 3).map(t => (
-                        <span key={t} className="work-tag">{t}</span>
+                {/* Screen area */}
+                <div className="xve-card-screen">
+                    {heroSrc ? (
+                        <Image
+                            src={heroSrc}
+                            alt={project.title}
+                            fill
+                            sizes="(max-width: 768px) 95vw, 700px"
+                            quality={92}
+                            className="xve-card-img"
+                            priority={index === 0}
+                        />
+                    ) : (
+                        <MockVisual project={project} index={index} />
+                    )}
+
+                    {/* Hover overlay */}
+                    <div className="xve-card-overlay">
+                        <div className="xve-card-overlay-inner">
+                            <span className="xve-card-overlay-label">Ver proyecto</span>
+                            <ArrowUpRight size={22} />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Info bar below the frame */}
+            <div className="xve-card-info">
+                <div className="xve-card-info-left">
+                    <h3 className="xve-card-title">{project.title}</h3>
+                    <p className="xve-card-meta">
+                        <span className="xve-card-category">{project.category}</span>
+                        <span className="xve-card-dot-sep">·</span>
+                        <span className="xve-card-year">{project.year}</span>
+                    </p>
+                </div>
+                <div className="xve-card-tags">
+                    {project.tags.slice(0, 2).map(t => (
+                        <span key={t} className="xve-card-tag">{t}</span>
                     ))}
                 </div>
-                <button className="work-view-btn" onClick={onDetails}>
-                    Ver Detalles <ArrowRight size={15} />
-                </button>
             </div>
-        </div>
+        </motion.button>
     );
 }
 
-// ─── Project Detail Modal ─────────────────────────────────────────────────────
+// ─── Project Detail Modal (unchanged — this is the detail view) ───────────────
 function ProjectModal({ project, index, onClose }: {
     project: Project;
     index: number;
     onClose: () => void;
 }) {
     const [galleryIdx, setGalleryIdx] = useState(0);
+    const [lightboxOpen, setLightboxOpen] = useState(false);
     const hasImages = project.images && project.images.length > 0;
     const totalImages = hasImages ? project.images.length : 0;
 
     const prevImage = () => setGalleryIdx(i => (i - 1 + totalImages) % totalImages);
     const nextImage = () => setGalleryIdx(i => (i + 1) % totalImages);
+
+    // Keyboard: ESC closes lightbox first, then modal; arrows navigate
+    useEffect(() => {
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                if (lightboxOpen) {
+                    setLightboxOpen(false);
+                } else {
+                    onClose();
+                }
+            } else if (e.key === "ArrowLeft" && totalImages > 1) {
+                prevImage();
+            } else if (e.key === "ArrowRight" && totalImages > 1) {
+                nextImage();
+            }
+        };
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [lightboxOpen, totalImages]);
 
     return (
         <motion.div
@@ -292,18 +307,13 @@ function ProjectModal({ project, index, onClose }: {
 
                     {/* Right: visual gallery */}
                     <div className="work-modal-gallery">
-                        <motion.div
-                            className="work-modal-main-visual"
-                            initial={{ opacity: 0, scale: 0.96 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.15 }}
-                        >
-                            {hasImages ? (
-                                <div className="work-gallery-main-wrap">
+                        {hasImages ? (
+                            <>
+                                <div className="wk-modal-main-img">
                                     <AnimatePresence mode="wait">
                                         <motion.div
                                             key={galleryIdx}
-                                            className="work-gallery-main-img"
+                                            className="wk-modal-img-wrap"
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
                                             exit={{ opacity: 0 }}
@@ -313,190 +323,195 @@ function ProjectModal({ project, index, onClose }: {
                                                 src={project.images[galleryIdx]}
                                                 alt={`${project.title} — captura ${galleryIdx + 1}`}
                                                 fill
-                                                sizes="(max-width: 768px) 100vw, 50vw"
-                                                className="work-real-img"
+                                                sizes="(max-width: 768px) 100vw, 800px"
+                                                quality={92}
+                                                className="wk-gallery-img"
                                             />
                                         </motion.div>
                                     </AnimatePresence>
+
+                                    {/* Click-to-zoom button (sits above image, below nav) */}
+                                    <button
+                                        className="wk-modal-zoom"
+                                        onClick={() => setLightboxOpen(true)}
+                                        aria-label="Ampliar imagen"
+                                    >
+                                        <Maximize2 size={16} />
+                                        <span>Ampliar</span>
+                                    </button>
+
                                     {totalImages > 1 && (
                                         <>
-                                            <button className="work-gallery-nav work-gallery-prev" onClick={prevImage} aria-label="Anterior">
-                                                <ChevronLeft size={18} />
+                                            <button
+                                                className="wk-modal-nav wk-modal-nav-prev"
+                                                onClick={prevImage}
+                                                aria-label="Anterior"
+                                            >
+                                                <ChevronLeft size={20} />
                                             </button>
-                                            <button className="work-gallery-nav work-gallery-next" onClick={nextImage} aria-label="Siguiente">
-                                                <ChevronRight size={18} />
+                                            <button
+                                                className="wk-modal-nav wk-modal-nav-next"
+                                                onClick={nextImage}
+                                                aria-label="Siguiente"
+                                            >
+                                                <ChevronRight size={20} />
                                             </button>
-                                            <span className="work-gallery-counter">{galleryIdx + 1} / {totalImages}</span>
+                                            <span className="wk-modal-counter">
+                                                {galleryIdx + 1} / {totalImages}
+                                            </span>
                                         </>
                                     )}
                                 </div>
-                            ) : (
-                                <MockVisual project={project} index={index} />
-                            )}
-                        </motion.div>
 
-                        {hasImages ? (
-                            <div className="work-modal-thumbs-row">
-                                {project.images.map((src, i) => (
-                                    <button
-                                        key={i}
-                                        className={`work-modal-thumb${i === galleryIdx ? " active" : ""}`}
-                                        onClick={() => setGalleryIdx(i)}
-                                        aria-label={`Ver captura ${i + 1}`}
-                                    >
-                                        <Image
-                                            src={src}
-                                            alt={`Miniatura ${i + 1}`}
-                                            fill
-                                            sizes="80px"
-                                            className="work-real-img"
-                                        />
-                                    </button>
-                                ))}
-                            </div>
+                                <div className="wk-modal-thumbs">
+                                    {project.images.map((src, i) => (
+                                        <button
+                                            key={src}
+                                            className={`wk-modal-thumb${i === galleryIdx ? " is-active" : ""}`}
+                                            onClick={() => setGalleryIdx(i)}
+                                            aria-label={`Ver captura ${i + 1}`}
+                                        >
+                                            <Image
+                                                src={src}
+                                                alt=""
+                                                fill
+                                                sizes="100px"
+                                                className="wk-gallery-img"
+                                            />
+                                        </button>
+                                    ))}
+                                </div>
+                            </>
                         ) : (
-                            <div className="work-modal-mini-row">
-                                {[0.75, 0.5].map((op, i) => (
-                                    <motion.div
-                                        key={i}
-                                        className="work-modal-mini"
-                                        initial={{ opacity: 0, y: 12 }}
-                                        animate={{ opacity: op, y: 0 }}
-                                        transition={{ delay: 0.25 + i * 0.1 }}
-                                        style={{ background: project.gradient } as CSSProperties}
-                                    >
-                                        <div className="work-scanlines" />
-                                    </motion.div>
-                                ))}
+                            <div className="work-modal-main-visual">
+                                <MockVisual project={project} index={index} />
                             </div>
                         )}
                     </div>
                 </div>
             </motion.div>
+
+            {/* Lightbox — full-screen image preview */}
+            <AnimatePresence>
+                {lightboxOpen && hasImages && (
+                    <motion.div
+                        className="wk-lightbox"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setLightboxOpen(false);
+                        }}
+                    >
+                        <button
+                            className="wk-lightbox-close"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setLightboxOpen(false);
+                            }}
+                            aria-label="Cerrar vista ampliada"
+                        >
+                            <X size={24} />
+                        </button>
+
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={galleryIdx}
+                                className="wk-lightbox-img-wrap"
+                                initial={{ opacity: 0, scale: 0.96 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.96 }}
+                                transition={{ duration: 0.25 }}
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <Image
+                                    src={project.images[galleryIdx]}
+                                    alt={`${project.title} — captura ${galleryIdx + 1}`}
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, 1400px"
+                                    quality={95}
+                                    className="wk-lightbox-img"
+                                    priority
+                                />
+                            </motion.div>
+                        </AnimatePresence>
+
+                        {totalImages > 1 && (
+                            <>
+                                <button
+                                    className="wk-lightbox-nav wk-lightbox-nav-prev"
+                                    onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                                    aria-label="Anterior"
+                                >
+                                    <ChevronLeft size={28} />
+                                </button>
+                                <button
+                                    className="wk-lightbox-nav wk-lightbox-nav-next"
+                                    onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                                    aria-label="Siguiente"
+                                >
+                                    <ChevronRight size={28} />
+                                </button>
+                                <div className="wk-lightbox-counter">
+                                    {galleryIdx + 1} / {totalImages}
+                                </div>
+                            </>
+                        )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.div>
     );
 }
 
 // ─── Main Work Section ────────────────────────────────────────────────────────
 export const Work = ({ content }: { content: SiteData["work"] }) => {
-    const [active, setActive] = useState(0);
-    const [modal, setModal] = useState(false);
-    const [busy, setBusy] = useState(false);
-
-    const select = (i: number) => {
-        if (i === active || busy) return;
-        setBusy(true);
-        setTimeout(() => { setActive(i); setBusy(false); }, 280);
-    };
-
-    const project = content.items[active];
+    const [openIdx, setOpenIdx] = useState<number | null>(null);
+    const activeProject = openIdx !== null ? content.items[openIdx] : null;
 
     return (
         <section className="work-section" id="work">
             <div className="section-container">
 
-                {/* Header row */}
+                {/* Header */}
                 <div className="work-header-row">
                     <div>
                         <span className="section-label">Proyectos</span>
                         <h2 className="section-heading">{content.heading}</h2>
                     </div>
                     <div className="work-counter">
-                        <motion.span
-                            key={active}
-                            initial={{ y: -10, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            className="work-counter-cur"
-                        >
-                            {String(active + 1).padStart(2, "0")}
-                        </motion.span>
+                        <span className="work-counter-cur">
+                            {String(content.items.length).padStart(2, "0")}
+                        </span>
                         <span className="work-counter-sep"> / </span>
                         <span className="work-counter-tot">
-                            {String(content.items.length).padStart(2, "0")}
+                            PROYECTOS
                         </span>
                     </div>
                 </div>
 
-                {/* Main grid */}
-                <div className="work-main-grid">
-
-                    {/* Featured area */}
-                    <div className="work-featured-col">
-                        <div className="work-featured-meta">
-                            <AnimatePresence mode="wait">
-                                <motion.div
-                                    key={active + "-meta"}
-                                    initial={{ opacity: 0, y: 8 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -8 }}
-                                    transition={{ duration: 0.2 }}
-                                >
-                                    <h3 className="work-featured-name">{project.title}</h3>
-                                    <p className="work-featured-cat">{project.category} · {project.year}</p>
-                                </motion.div>
-                            </AnimatePresence>
-                        </div>
-
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={active}
-                                initial={{ opacity: 0, scale: 0.96, filter: "blur(6px)" }}
-                                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                                exit={{ opacity: 0, scale: 1.02, filter: "blur(8px)" }}
-                                transition={{ duration: 0.3, ease: "easeOut" }}
-                            >
-                                <FeaturedCard
-                                    project={project}
-                                    index={active}
-                                    onDetails={() => setModal(true)}
-                                />
-                            </motion.div>
-                        </AnimatePresence>
-                    </div>
-
-                    {/* Project list */}
-                    <nav className="work-project-list" aria-label="Lista de proyectos">
-                        {content.items.map((proj, i) => (
-                            <button
-                                key={proj.id}
-                                className={`work-list-item${i === active ? " active" : ""}`}
-                                onClick={() => select(i)}
-                                disabled={busy}
-                            >
-                                {/* Active indicator bar */}
-                                {i === active && (
-                                    <motion.div
-                                        className="work-list-active-bar"
-                                        layoutId="work-bar"
-                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                    />
-                                )}
-
-                                <span className="work-list-num">{String(i + 1).padStart(2, "0")}</span>
-
-                                <div className="work-list-text">
-                                    <span className="work-list-title">{proj.title}</span>
-                                    <span className="work-list-cat">{proj.category}</span>
-                                </div>
-
-                                {/* Color swatch */}
-                                <div
-                                    className="work-list-swatch"
-                                    style={{ background: proj.gradient } as CSSProperties}
-                                />
-                            </button>
-                        ))}
-                    </nav>
+                {/* Grid of project cards */}
+                <div className="xve-projects-grid">
+                    {content.items.map((proj, i) => (
+                        <ProjectCard
+                            key={proj.id}
+                            project={proj}
+                            index={i}
+                            onOpen={() => setOpenIdx(i)}
+                        />
+                    ))}
                 </div>
             </div>
 
             {/* Modal */}
             <AnimatePresence>
-                {modal && (
+                {activeProject && openIdx !== null && (
                     <ProjectModal
-                        project={project}
-                        index={active}
-                        onClose={() => setModal(false)}
+                        project={activeProject}
+                        index={openIdx}
+                        onClose={() => setOpenIdx(null)}
                     />
                 )}
             </AnimatePresence>
