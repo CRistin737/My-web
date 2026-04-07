@@ -6,12 +6,27 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { SiteData } from "@/content/site-data";
 
 type Tab = "web" | "hosting";
+type BillingCycle = "monthly" | "annual";
+
+const ANNUAL_DISCOUNT = 0.10; // 10% off when paid annually
+
+// Parse a price string like "RD$2,100" → 2100
+function parsePrice(priceStr: string): number {
+    const digits = priceStr.replace(/[^\d.]/g, "");
+    return parseFloat(digits) || 0;
+}
+
+// Format a number back to "RD$X,XXX"
+function formatPrice(num: number): string {
+    return `RD$${Math.round(num).toLocaleString("en-US")}`;
+}
 
 export const Pricing = ({ content, hosting }: {
     content: SiteData["pricing"];
     hosting: SiteData["hosting"];
 }) => {
     const [tab, setTab] = useState<Tab>("web");
+    const [cycle, setCycle] = useState<BillingCycle>("monthly");
     const active = tab === "web" ? content : hosting;
 
     return (
@@ -56,6 +71,46 @@ export const Pricing = ({ content, hosting }: {
                     </div>
                 </div>
 
+                {/* Billing cycle toggle — only visible on hosting tab */}
+                <AnimatePresence>
+                    {tab === "hosting" && (
+                        <motion.div
+                            className="billing-toggle-wrap"
+                            initial={{ opacity: 0, y: -8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -8 }}
+                            transition={{ duration: 0.25 }}
+                        >
+                            <div className="billing-toggle">
+                                <button
+                                    type="button"
+                                    className={`billing-toggle-btn ${cycle === "monthly" ? "billing-toggle-btn--active" : ""}`}
+                                    onClick={() => setCycle("monthly")}
+                                >
+                                    Mensual
+                                </button>
+                                <button
+                                    type="button"
+                                    className={`billing-toggle-btn ${cycle === "annual" ? "billing-toggle-btn--active" : ""}`}
+                                    onClick={() => setCycle("annual")}
+                                >
+                                    Anual
+                                    <span className="billing-discount-badge">-10%</span>
+                                </button>
+                                <motion.div
+                                    className="billing-toggle-pill"
+                                    layoutId="billing-pill"
+                                    transition={{ type: "spring", damping: 28, stiffness: 380 }}
+                                    style={{
+                                        left: cycle === "monthly" ? "4px" : "calc(50%)",
+                                        width: "calc(50% - 4px)",
+                                    }}
+                                />
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
                 {/* Cards */}
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -66,7 +121,18 @@ export const Pricing = ({ content, hosting }: {
                         exit={{ opacity: 0, y: -12 }}
                         transition={{ duration: 0.25 }}
                     >
-                        {active.items.map((plan, index) => (
+                        {active.items.map((plan, index) => {
+                            // Calculate annual price for hosting plans with /mes suffix
+                            const isMonthlyPlan = tab === "hosting" && plan.priceEnd?.includes("/mes");
+                            const showAnnual = isMonthlyPlan && cycle === "annual";
+                            const monthlyAmount = isMonthlyPlan ? parsePrice(plan.price) : 0;
+                            const annualAmount = monthlyAmount * 12 * (1 - ANNUAL_DISCOUNT);
+                            const monthlySavings = (monthlyAmount * 12) - annualAmount;
+
+                            const displayPrice = showAnnual ? formatPrice(annualAmount) : plan.price;
+                            const displayPriceEnd = showAnnual ? "/año" : (plan.priceEnd || "\u00A0");
+
+                            return (
                             <motion.div
                                 key={index}
                                 initial={{ opacity: 0, y: 24 }}
@@ -81,8 +147,25 @@ export const Pricing = ({ content, hosting }: {
 
                                 <h3 className="plan-name">{plan.name}</h3>
 
-                                <div className="plan-price">{plan.price}</div>
-                                <div className="plan-price-end">{plan.priceEnd || "\u00A0"}</div>
+                                <AnimatePresence mode="wait">
+                                    <motion.div
+                                        key={`${plan.name}-${cycle}`}
+                                        className="plan-price"
+                                        initial={{ opacity: 0, y: 6 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -6 }}
+                                        transition={{ duration: 0.2 }}
+                                    >
+                                        {displayPrice}
+                                    </motion.div>
+                                </AnimatePresence>
+                                <div className="plan-price-end">{displayPriceEnd}</div>
+
+                                {showAnnual && monthlySavings > 0 && (
+                                    <div className="plan-savings">
+                                        Ahorras {formatPrice(monthlySavings)} al año
+                                    </div>
+                                )}
 
                                 <p className="plan-desc">{plan.desc}</p>
 
@@ -102,14 +185,17 @@ export const Pricing = ({ content, hosting }: {
                                     {plan.cta}
                                 </a>
                             </motion.div>
-                        ))}
+                            );
+                        })}
                     </motion.div>
                 </AnimatePresence>
 
                 <p className="pricing-note">
                     {tab === "web"
                         ? "* Todo lo que esté fuera del alcance del plan se cotiza aparte de forma transparente, antes de ejecutar."
-                        : "* Todos los planes incluyen migración gratuita. Precios en pesos dominicanos, facturación mensual."
+                        : cycle === "annual"
+                            ? "* Todos los planes incluyen migración gratuita. Pago anual con 10% de descuento — ahorras dos meses al año."
+                            : "* Todos los planes incluyen migración gratuita. Precios en pesos dominicanos, facturación mensual."
                     }
                 </p>
             </div>
