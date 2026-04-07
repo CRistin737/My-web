@@ -284,11 +284,11 @@ export const Hero = ({ content }: { content: SiteData["hero"] }) => {
                     initial="hidden"
                     animate="visible"
                 >
-                    <a href="#work" className="btn-primary">
-                        {content.ctaPrimary} <ArrowRight size={16} />
+                    <a href="#contact" className="btn-primary">
+                        {content.ctaSecondary} <ArrowRight size={16} />
                     </a>
-                    <a href="#contact" className="btn-secondary">
-                        {content.ctaSecondary}
+                    <a href="#work" className="btn-secondary">
+                        {content.ctaPrimary}
                     </a>
                 </motion.div>
             </div>
