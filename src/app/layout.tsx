@@ -10,6 +10,7 @@ const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrai
 import { constructMetadata, generateJsonLd } from "@/lib/seo-config";
 import { GoogleAnalytics, GTMNoScript } from "@/components/analytics/GoogleAnalytics";
 import { CookieBanner } from "@/components/blocks/CookieBanner";
+import { CustomCursor } from "@/components/cursor/CustomCursor";
 
 export const metadata = constructMetadata();
 
@@ -32,6 +33,7 @@ export default function RootLayout({
           />
         ))}
         <GoogleAnalytics />
+        <CustomCursor />
         {children}
         <CookieBanner />
       </body>

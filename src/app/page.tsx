@@ -11,14 +11,12 @@ import { FAQ } from "@/components/blocks/FAQ";
 import { CTA } from "@/components/blocks/CTA";
 import { ContactForm } from "@/components/blocks/ContactForm";
 import { Footer } from "@/components/blocks/Footer";
-import { CustomCursor } from "@/components/cursor/CustomCursor";
 import { siteData } from "@/content/site-data";
 
 export default function Home() {
   return (
     <main className="page-container">
 
-      <CustomCursor />
       <SiteHeader content={siteData} />
 
       {/* Floating WhatsApp */}

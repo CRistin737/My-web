@@ -370,12 +370,6 @@ export default function TerminosYCondiciones() {
 
                     <hr className="legal-divider" />
 
-                    <p className="legal-disclaimer">
-                        Este documento fue redactado conforme a la legislación dominicana vigente como referencia
-                        legal. Se recomienda la revisión por un abogado colegiado en la República Dominicana antes
-                        de su publicación definitiva.
-                    </p>
-
                     <div className="legal-nav-links">
                         <a href="/privacidad">Política de Privacidad</a>
                         <a href="/cookies">Política de Cookies</a>
