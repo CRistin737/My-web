@@ -79,7 +79,10 @@ interface TrailPoint { x: number; y: number; t: number; }
 function useTronTrail(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
     const points = useRef<TrailPoint[]>([]);
     const raf = useRef<number>(0);
+    const lastInputRef = useRef<number>(0);
+    const startTimeRef = useRef<number>(Date.now());
     const DURATION = 700; // ms each point lives
+    const IDLE_THRESHOLD = 1200; // ms before ambient animation kicks in
 
     const draw = useCallback(() => {
         const canvas = canvasRef.current;
@@ -90,10 +93,34 @@ function useTronTrail(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
         const isDark = !document.body.hasAttribute("data-mode");
         const now = Date.now();
 
+        // Ambient idle animation — adds points along a lissajous curve so the
+        // trail is visible even without mouse/touch input (mobile-friendly)
+        const timeSinceInput = now - lastInputRef.current;
+        const shouldAmbient = timeSinceInput > IDLE_THRESHOLD;
+        if (shouldAmbient) {
+            // Use CSS pixel space (canvas backing pixels are scaled by DPR)
+            const dpr = window.devicePixelRatio || 1;
+            const cssW = canvas.width / dpr;
+            const cssH = canvas.height / dpr;
+            const t = (now - startTimeRef.current) / 1000;
+            const cx = cssW / 2;
+            const cy = cssH / 2;
+            const rx = cssW * 0.32;
+            const ry = cssH * 0.28;
+            const px = cx + Math.sin(t * 0.42) * rx;
+            const py = cy + Math.cos(t * 0.65) * ry;
+            points.current.push({ x: px, y: py, t: now });
+            if (points.current.length > 160) points.current.shift();
+        }
+
         // Prune old points
         points.current = points.current.filter(p => now - p.t < DURATION);
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Use CSS pixel size for clearing (canvas is scaled by DPR via setTransform)
+        const dpr = window.devicePixelRatio || 1;
+        const cssWidth = canvas.width / dpr;
+        const cssHeight = canvas.height / dpr;
+        ctx.clearRect(0, 0, cssWidth, cssHeight);
 
         if (points.current.length < 2) {
             raf.current = requestAnimationFrame(draw);
@@ -147,7 +174,7 @@ function useTronTrail(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
         }
 
         raf.current = requestAnimationFrame(draw);
-    }, []);
+    }, [canvasRef]);
 
     useEffect(() => {
         raf.current = requestAnimationFrame(draw);
@@ -156,8 +183,9 @@ function useTronTrail(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
 
     const addPoint = useCallback((x: number, y: number) => {
         points.current.push({ x, y, t: Date.now() });
-        // Keep max 120 points to avoid memory growth
-        if (points.current.length > 120) points.current.shift();
+        lastInputRef.current = Date.now();
+        // Keep max 160 points to avoid memory growth
+        if (points.current.length > 160) points.current.shift();
     }, []);
 
     return { addPoint };
@@ -176,14 +204,27 @@ export const Hero = ({ content }: { content: SiteData["hero"] }) => {
 
     const { addPoint } = useTronTrail(canvasRef);
 
-    // Sync canvas size to section size
+    // Sync canvas size to section size with DPR scaling for sharp rendering on retina
     useEffect(() => {
         const el = containerRef.current;
         const canvas = canvasRef.current;
         if (!el || !canvas) return;
         const sync = () => {
-            canvas.width  = el.offsetWidth;
-            canvas.height = el.offsetHeight;
+            const dpr = window.devicePixelRatio || 1;
+            const w = el.offsetWidth;
+            const h = el.offsetHeight;
+            // Backing store at DPR resolution
+            canvas.width  = Math.round(w * dpr);
+            canvas.height = Math.round(h * dpr);
+            // CSS size stays at logical pixels
+            canvas.style.width  = `${w}px`;
+            canvas.style.height = `${h}px`;
+            // Scale the context so we draw in CSS pixel coords
+            const ctx = canvas.getContext("2d");
+            if (ctx) {
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.scale(dpr, dpr);
+            }
         };
         sync();
         const ro = new ResizeObserver(sync);
@@ -204,12 +245,33 @@ export const Hero = ({ content }: { content: SiteData["hero"] }) => {
         rawY.set(0.5);
     };
 
+    // Touch support — phones/tablets get the trail when finger drags across the hero
+    const handleTouchMove = (e: React.TouchEvent) => {
+        const touch = e.touches[0];
+        if (!touch) return;
+        const rect = containerRef.current?.getBoundingClientRect();
+        if (!rect) return;
+        rawX.set((touch.clientX - rect.left) / rect.width);
+        rawY.set((touch.clientY - rect.top) / rect.height);
+        addPoint(touch.clientX - rect.left, touch.clientY - rect.top);
+    };
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+        const touch = e.touches[0];
+        if (!touch) return;
+        const rect = containerRef.current?.getBoundingClientRect();
+        if (!rect) return;
+        addPoint(touch.clientX - rect.left, touch.clientY - rect.top);
+    };
+
     return (
         <section
             ref={containerRef}
             className="hero-section"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
         >
             {/* Grid background */}
             <div className="hero-bg-grid" />
