@@ -481,12 +481,13 @@ body.theme-xve .btn-outline:hover {
 /* ── Hero ────────────────────────────────────────────────────── */
 body.theme-xve .hero-section {
     position: relative;
+    /* Natural flow on phones — hero + tecnologias visible together cleanly */
     min-height: auto;
     display: flex;
     align-items: flex-start;
     justify-content: center;
     overflow: hidden;
-    padding: 6.75rem 0 4.5rem;
+    padding: 6.5rem 0 4rem;
     background: var(--bg);
 }
 
@@ -1243,10 +1244,14 @@ body.theme-xve .pricing-section {
 /* Pricing grid — 1 col on phones, 2 on tablets, 4 on desktop.
    Cards have a lot of content (price + 7+ features + CTA) so they need
    real breathing room. The previous 640px threshold was too low —
-   2 cols at 640px gave each card ~300px which crammed everything. */
+   2 cols at 640px gave each card ~300px which crammed everything.
+
+   grid-auto-rows: 1fr forces every row to the tallest card's height,
+   so CTAs always align perfectly regardless of feature count. */
 body.theme-xve .pricing-grid {
     display: grid;
     grid-template-columns: 1fr;
+    grid-auto-rows: 1fr;
     gap: 1.25rem;
     align-items: stretch;
 }
