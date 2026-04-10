@@ -27,6 +27,8 @@ body.theme-xve {
     --bg-card:     #141414;
     --bg-card2:    #1a1a1a;
     --border:      #252525;
+    --contact-input-border: #444444;
+    --contact-input-bg: #111111;
     --border-red:  rgba(220, 30, 30, 0.35);
     --red:         #DC1E1E;
     --red-bright:  #FF2525;
@@ -49,6 +51,8 @@ body.theme-xve[data-mode="light"] {
     --bg-card:     #FFFFFF;
     --bg-card2:    #EFEFEF;
     --border:      #E0E0E0;
+    --contact-input-border: #999999;
+    --contact-input-bg: #F9F9F9;
     --border-red:  rgba(220, 30, 30, 0.25);
     --red:         #DC1E1E;
     --red-bright:  #C41414;
@@ -481,13 +485,15 @@ body.theme-xve .btn-outline:hover {
 /* ── Hero ────────────────────────────────────────────────────── */
 body.theme-xve .hero-section {
     position: relative;
-    /* Natural flow on phones — hero + tecnologias visible together cleanly */
+    /* Natural flow on phones — hero + tecnologias visible together cleanly.
+       Extra bottom padding on mobile so the hero can breathe before the
+       logos strip starts, instead of crashing straight into it. */
     min-height: auto;
     display: flex;
     align-items: flex-start;
     justify-content: center;
     overflow: hidden;
-    padding: 6.5rem 0 4rem;
+    padding: 7rem 0 5.5rem;
     background: var(--bg);
 }
 
@@ -719,6 +725,7 @@ body.theme-xve .section-container {
     max-width: 1400px;
     margin: 0 auto;
     padding: 3.5rem 1rem;
+    overflow-x: hidden;
 }
 
 @media (min-width: 768px) {
@@ -766,7 +773,7 @@ body.theme-xve .section-heading {
 
 body.theme-xve .section-subheading {
     color: var(--text-2);
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 3.5vw, 1.1rem);
     max-width: 600px;
     margin: 0 auto;
     line-height: 1.6;
@@ -1241,40 +1248,47 @@ body.theme-xve .pricing-section {
     border-top: 1px solid var(--border);
 }
 
-/* Pricing grid — 1 col on phones, 2 on tablets, 4 on desktop.
-   Cards have a lot of content (price + 7+ features + CTA) so they need
-   real breathing room. The previous 640px threshold was too low —
-   2 cols at 640px gave each card ~300px which crammed everything.
-
-   grid-auto-rows: 1fr forces every row to the tallest card's height,
-   so CTAs always align perfectly regardless of feature count. */
+/* Pricing grid — responsive layout per viewport:
+     • Phone (< 640px):      1 column stack with big vertical gap
+     • Tablet (640-1179px):  2 × 2 grid with very generous row-gap
+     • Desktop (≥ 1180px):   4-column single row
+   The featured card has `box-shadow: 0 20px 60px` which bleeds ~60px
+   downward — any vertical gap smaller than that lets row N's red
+   glow fuse visually with row N+1. 5rem (80px) clears it with
+   breathing room on both phone and tablet. */
 body.theme-xve .pricing-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    grid-auto-rows: 1fr;
-    gap: 1.25rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 5rem;
     align-items: stretch;
 }
 
-/* Small tablet — 2 columns only when each card has ≥ 380px breathing room */
-@media (min-width: 820px) {
+/* Tablet — 2 columns × 2 rows (2×2 grid).
+   row-gap must be LARGER than the featured card's shadow spread
+   (box-shadow has 60px blur) otherwise row 1's glow bleeds into row 2
+   and the cards look fused together. 5rem (80px) clears the shadow
+   with room to spare. */
+@media (min-width: 640px) {
     body.theme-xve .pricing-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1.5rem;
+        column-gap: 1.5rem;
+        row-gap: 5rem;
     }
 }
 
-/* Desktop — 4 columns only when each card has ≥ 260px */
+/* Desktop — 4 columns in a single row */
 @media (min-width: 1180px) {
     body.theme-xve .pricing-grid {
         grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 1.25rem;
+        column-gap: 1.25rem;
+        row-gap: 1.25rem;
     }
 }
 
 @media (min-width: 1400px) {
     body.theme-xve .pricing-grid {
-        gap: 1.5rem;
+        column-gap: 1.5rem;
+        row-gap: 1.5rem;
     }
 }
 
@@ -1787,11 +1801,29 @@ body.theme-xve .contact-section {
     border-top: 1px solid var(--border);
 }
 
+body.theme-xve .contact-wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+    width: 100%;
+    overflow: hidden;
+}
+
 body.theme-xve .contact-form-box {
     background: var(--bg-card);
     border: 1.5px solid var(--border);
     border-radius: 12px;
-    padding: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    padding: 1.25rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+@media (min-width: 480px) {
+    body.theme-xve .contact-form-box {
+        padding: 1.5rem;
+    }
 }
 
 @media (min-width: 768px) {
@@ -1800,7 +1832,6 @@ body.theme-xve .contact-form-box {
     }
 }
 
-/* Contact form 2-column grid */
 body.theme-xve .contact-name-email-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -1811,7 +1842,19 @@ body.theme-xve .contact-name-email-grid {
 @media (min-width: 768px) {
     body.theme-xve .contact-name-email-grid {
         grid-template-columns: 1fr 1fr;
+        gap: 2rem;
     }
+}
+
+body.theme-xve .contact-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+body.theme-xve .contact-field--message {
+    margin-bottom: 2rem;
 }
 
 body.theme-xve .contact-label {
@@ -1825,15 +1868,22 @@ body.theme-xve .contact-label {
 }
 
 body.theme-xve .contact-input {
+    display: block;
     width: 100%;
-    background: var(--bg);
-    border: 1.5px solid var(--border);
-    border-radius: 6px;
-    padding: 0.75rem 1rem;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    background-color: var(--contact-input-bg, var(--bg));
+    border: 2px solid var(--contact-input-border, var(--border));
+    border-radius: 10px;
+    font-size: 1rem;
+    padding: 0.85rem 1rem;
     color: var(--text);
-    font-size: 0.95rem;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 body.theme-xve .contact-input:focus {
@@ -1843,6 +1893,7 @@ body.theme-xve .contact-input:focus {
 
 body.theme-xve .contact-input::placeholder {
     color: var(--text-3);
+    opacity: 1;
 }
 
 body.theme-xve .contact-success {
@@ -1902,8 +1953,8 @@ body.theme-xve .contact-chips {
 }
 
 body.theme-xve .contact-chip {
-    padding: 0.4rem 0.85rem;
-    font-size: 0.78rem;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.8rem;
     font-weight: 600;
     color: var(--text-2);
     background: var(--bg);
