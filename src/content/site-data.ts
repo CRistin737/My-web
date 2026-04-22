@@ -196,8 +196,8 @@ export const siteData = {
             },
             {
                 name: "Software a Medida",
-                price: "RD$150,000",
-                priceEnd: "– 1,000,000",
+                price: "Cotización",
+                priceEnd: "personalizada",
                 desc: "Aplicaciones web, CRMs, dashboards y sistemas empresariales completamente personalizados.",
                 features: [
                     "Análisis de requerimientos incluido",
