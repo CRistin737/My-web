@@ -178,7 +178,7 @@ export const siteData = {
             {
                 name: "Completo",
                 price: "RD$45,000",
-                priceEnd: "– 150,000",
+                priceEnd: "– 300,000",
                 desc: "Solución premium con animaciones 3D, integraciones avanzadas y panel de analytics.",
                 features: [
                     "E-commerce o web corporativa completa",
